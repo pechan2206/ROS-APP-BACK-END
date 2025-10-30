@@ -4,7 +4,6 @@ import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-
 import java.util.Date;
 import java.util.List;
 
@@ -33,7 +32,10 @@ public class Factura {
     @Column(name = "id_domicilio")
     private Integer idDomicilio;
 
-    // Relaciones
+    @ManyToOne
+    @JoinColumn(name = "id_cliente")
+    private Cliente cliente;
+
     @ManyToOne
     @JoinColumn(name = "id_pedido", insertable = false, updatable = false)
     private Pedido pedido;
@@ -42,7 +44,6 @@ public class Factura {
     @JoinColumn(name = "id_domicilio", insertable = false, updatable = false)
     private Domicilio domicilio;
 
-    // Detalles de factura
     @OneToMany(mappedBy = "factura")
     private List<DetalleFactura> detallesFactura;
 }

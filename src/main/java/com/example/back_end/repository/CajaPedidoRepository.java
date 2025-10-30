@@ -6,4 +6,5 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface CajaPedidoRepository extends JpaRepository<CajaPedido,Integer> {
+
 }
