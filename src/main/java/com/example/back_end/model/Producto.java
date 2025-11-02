@@ -27,17 +27,11 @@ public class Producto {
     @Column(name = "precio")
     private Integer precio;
 
-    // RELACIÓN uno a muchos con inventarios
-    @OneToMany(mappedBy = "producto")
+    // 🔹 Relación uno a muchos con inventario
+    @OneToMany(mappedBy = "producto", cascade = CascadeType.ALL)
     private List<Inventario> inventarios;
 
-    // RELACIÓN muchos a muchos con proveedores
-    @ManyToMany
-    @JoinTable(
-            name = "proveedor_producto",
-            joinColumns = @JoinColumn(name = "id_producto"),
-            inverseJoinColumns = @JoinColumn(name = "id_proveedor")
-    )
+    // 🔹 Relación muchos a muchos con proveedores
+    @ManyToMany(mappedBy = "productos") // 👉 el lado inverso está en Proveedor
     private List<Proveedor> proveedores;
-
 }

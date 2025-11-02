@@ -28,10 +28,22 @@ public class Menu {
     @JoinColumn(name = "id_promocion")
     private Promocion promocion; // menú puede tener promoción opcional
 
-    @OneToMany(mappedBy = "menu", cascade = CascadeType.ALL)
-    private List<MenuCategoria> categorias;
+    @ManyToMany
+    @JoinTable(
+            name = "menu_categoria",
+            joinColumns = @JoinColumn(name = "fk_id_menu"),
+            inverseJoinColumns = @JoinColumn(name = "fk_id_categoria")
+    )
+    private List<Categoria> categorias;
 
-    @OneToMany(mappedBy = "menu", cascade = CascadeType.ALL)
-    private List<MenuPedido> pedidos;
+
+    @ManyToMany
+    @JoinTable(
+            name = "menu_pedidos",
+            joinColumns = @JoinColumn(name = "fk_id_menu"),
+            inverseJoinColumns = @JoinColumn(name = "fk_id_pedido")
+    )
+    private List<Pedido> pedidos;
+
 }
 

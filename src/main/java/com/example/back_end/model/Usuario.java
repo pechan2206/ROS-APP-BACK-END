@@ -8,6 +8,8 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.List;
+
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
@@ -36,8 +38,8 @@ public class Usuario {
     private Integer idRol;
 
     // RELACIÓN muchos a uno con Roles
-    @ManyToOne
-    @JoinColumn(name = "id_rol", insertable = false, updatable = false)
-    private Rol rol;
+    @ManyToMany(mappedBy = "usuarios")
+    private List<Rol> roles;
+
 
 }

@@ -22,17 +22,23 @@ public class Rol {
     @Column(name = "nombre", length = 50)
     private String nombre;
 
-    // RELACIÓN uno a muchos con usuarios
-    @OneToMany(mappedBy = "rol")
+    @ManyToMany
+    @JoinTable(
+            name = "roles_usuarios",
+            joinColumns = @JoinColumn(name = "fk_id_rol"),
+            inverseJoinColumns = @JoinColumn(name = "fk_id_usuario")
+    )
     private List<Usuario> usuarios;
+
 
     // RELACIÓN muchos a muchos con permisos
     @ManyToMany
     @JoinTable(
-            name = "roles_permisos",
-            joinColumns = @JoinColumn(name = "id_rol"),
-            inverseJoinColumns = @JoinColumn(name = "id_permiso")
+            name = "rol_permisos",
+            joinColumns = @JoinColumn(name = "fk_id_rol"),
+            inverseJoinColumns = @JoinColumn(name = "fk_id_permiso")
     )
     private List<Permiso> permisos;
+
 
 }

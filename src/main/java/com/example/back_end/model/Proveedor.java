@@ -29,7 +29,12 @@ public class Proveedor {
     @Column(name = "direccion", length = 255)
     private String direccion;
 
-    // RELACIÓN muchos a muchos con productos
-    @ManyToMany(mappedBy = "proveedores")
+    @ManyToMany
+    @JoinTable(
+            name = "proveedores_productos",
+            joinColumns = @JoinColumn(name = "fk_id_proveedor"),
+            inverseJoinColumns = @JoinColumn(name = "fk_id_producto")
+    )
     private List<Producto> productos;
+
 }

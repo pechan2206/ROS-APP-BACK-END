@@ -28,10 +28,21 @@ public class Caja {
     @Column(name = "saldo_final")
     private Double saldoFinal;
 
-    // RELACIONES con pedidos y domicilios
-    @OneToMany(mappedBy = "caja")
-    private List<CajaPedido> cajasPedidos;
+    @ManyToMany
+    @JoinTable(
+            name = "cajas_pedidos",
+            joinColumns = @JoinColumn(name = "fk_id_caja"),
+            inverseJoinColumns = @JoinColumn(name = "fk_id_pedido")
+    )
+    private List<Pedido> pedidos;
 
-    @OneToMany(mappedBy = "caja")
-    private List<CajaDomicilio> cajasDomicilios;
+
+    @ManyToMany
+    @JoinTable(
+            name = "cajas_domicilios",
+            joinColumns = @JoinColumn(name = "fk_id_caja"),
+            inverseJoinColumns = @JoinColumn(name = "fk_id_domicilio")
+    )
+    private List<Domicilio> domicilios;
+
 }

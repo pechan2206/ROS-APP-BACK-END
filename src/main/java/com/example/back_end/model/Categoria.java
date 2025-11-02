@@ -18,6 +18,6 @@ public class Categoria {
     @Column(nullable = false, length = 100)
     private String nombre;
 
-    @OneToMany(mappedBy = "categoria", cascade = CascadeType.ALL)
-    private List<MenuCategoria> menus;
+    @ManyToMany(mappedBy = "categorias")
+    private List<Menu> menus;
 }

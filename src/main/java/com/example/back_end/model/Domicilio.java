@@ -30,9 +30,9 @@ public class Domicilio {
     @Temporal(TemporalType.TIMESTAMP)
     private Date fechaDomicilio;
 
-    // Relación uno a muchos con cajas_domicilio
-    @OneToMany(mappedBy = "domicilio")
-    private List<CajaDomicilio> cajasDomicilio;
+    @ManyToMany(mappedBy = "domicilios")
+    private List<Caja> cajas;
+
 
     // Relación uno a muchos con facturas
     @OneToMany(mappedBy = "domicilio")

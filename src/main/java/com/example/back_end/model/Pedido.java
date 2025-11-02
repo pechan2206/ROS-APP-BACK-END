@@ -35,7 +35,8 @@ public class Pedido {
     @JoinColumn(name = "id_mesa", insertable = false, updatable = false)
     private Mesa mesa;
 
-    // RELACIÓN uno a muchos con cajas_pedidos
-    @OneToMany(mappedBy = "pedido")
-    private List<CajaPedido> cajasPedidos;
+    @ManyToMany(mappedBy = "pedidos")
+    private List<Caja> cajas;
+
+
 }

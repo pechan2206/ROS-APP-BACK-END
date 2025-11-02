@@ -22,8 +22,8 @@ public class Permiso {
     @Column(name = "nombre_permiso", length = 100)
     private String nombrePermiso;
 
-    // RELACIÓN muchos a muchos con roles
     @ManyToMany(mappedBy = "permisos")
     private List<Rol> roles;
+
 
 }
