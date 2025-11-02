@@ -4,12 +4,10 @@ package com.example.back_end.controller;
 import com.example.back_end.model.Usuario;
 import com.example.back_end.service.UsuarioService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/api/usuarios")
@@ -23,5 +21,26 @@ public class UsuarioController {
     public List<Usuario> listar(){
         return usuarioService.listar();
     }
+
+    @GetMapping("/{id}")
+    public Optional<Usuario> buscarPorId(@PathVariable Integer id){
+        return usuarioService.obtenerPorId(id);
+    }
+
+    @PostMapping
+    public Usuario guardar(@RequestBody Usuario usuario){
+        return usuarioService.guardar(usuario);
+    }
+
+    @PutMapping("/{id}")
+    public Usuario actualizar(@PathVariable Integer id, @RequestBody Usuario producto) {
+        return usuarioService.actualizar(id, producto);
+    }
+
+    @DeleteMapping("/{id}")
+    public void eliminar(@PathVariable Integer id) {
+        usuarioService.eliminar(id);
+    }
+
 
 }

@@ -1,5 +1,6 @@
 package com.example.back_end.model;
 
+import com.example.back_end.model.enums.EstadoMesa;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -22,8 +23,9 @@ public class Mesa {
     @Column(name = "numero_mesa", nullable = false)
     private Integer numeroMesa;
 
+    @Enumerated(EnumType.STRING)
     @Column(name = "estado", length = 50)
-    private String estado;
+    private EstadoMesa estado;
 
     // RELACIÓN uno a muchos con pedidos
     @OneToMany(mappedBy = "mesa")
