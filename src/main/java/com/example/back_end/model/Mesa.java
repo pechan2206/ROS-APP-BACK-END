@@ -21,7 +21,7 @@ public class Mesa {
     private Integer idMesa;
 
     @Column(name = "numero_mesa", nullable = false)
-    private Integer numeroMesa;
+    private String numeroMesa;
 
     @Enumerated(EnumType.STRING)
     @Column(name = "estado", length = 50)
