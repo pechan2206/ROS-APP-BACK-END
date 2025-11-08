@@ -8,7 +8,7 @@ import java.util.Optional;
 public interface ProveedorService {
 
     List<Proveedor> listar();
-    Optional<Proveedor> obtenerPorId(Integer id);
+    Proveedor obtenerPorId(Integer id);
     Proveedor guardar(Proveedor proveedor);
     void eliminar(Integer id);
     Proveedor actualizar(Integer id, Proveedor proveedor);
