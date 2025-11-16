@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.Date;
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/api/pedidos")
@@ -25,8 +26,8 @@ public class PedidoController {
 
     // 🔹 Buscar pedido por ID
     @GetMapping("/{id}")
-    public ResponseEntity<Pedido> obtenerPorId(@PathVariable Integer id) {
-        Pedido pedido = pedidoService.obtenerPorId(id);
+    public ResponseEntity<Optional<Pedido>> obtenerPorId(@PathVariable Integer id) {
+        Optional<Pedido> pedido = pedidoService.obtenerPorId(id);
         return ResponseEntity.ok(pedido);
     }
 

@@ -41,4 +41,10 @@ public class ProductoServiceImpl implements ProductoService {
     public Producto actualizar(Integer id, Producto producto){
         return productoRepository.save(producto);
     }
+
+    @Override
+    public List<Producto> buscarPorNombre(String nombre) {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'buscarPorNombre'");
+    }
 }

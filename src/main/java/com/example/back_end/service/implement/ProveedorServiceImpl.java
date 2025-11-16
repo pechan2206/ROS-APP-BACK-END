@@ -21,9 +21,10 @@ public class ProveedorServiceImpl implements ProveedorService {
     }
 
     @Override
-    public Optional<Proveedor> obtenerPorId(Integer id){
-        return proveedorRepository.findById(id);
+    public Proveedor obtenerPorId(Integer id){
+        return proveedorRepository.findById(id).orElse(null);
     }
+
 
     @Override
     public Proveedor guardar(Proveedor proveedor){

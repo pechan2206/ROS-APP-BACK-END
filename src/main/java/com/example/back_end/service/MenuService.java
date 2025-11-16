@@ -12,4 +12,6 @@ public interface MenuService {
     Menu guardar(Menu menu);
     void eliminar(Integer id);
     Menu actualizar(Integer id, Menu menu);
+    List<Menu> listarPorPrecioMenor(Double precioMax);
+    List<Menu> buscarPorNombre(String nombre);
 }

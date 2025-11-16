@@ -7,6 +7,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/api/domicilios")
@@ -24,8 +25,8 @@ public class DomicilioController {
 
     // 🔹 Buscar domicilio por ID
     @GetMapping("/{id}")
-    public ResponseEntity<Domicilio> obtenerPorId(@PathVariable Integer id) {
-        Domicilio domicilio = domicilioService.obtenerPorId(id);
+    public ResponseEntity<Optional<Domicilio>> obtenerPorId(@PathVariable Integer id) {
+        Optional<Domicilio> domicilio = domicilioService.obtenerPorId(id);
         return ResponseEntity.ok(domicilio);
     }
 

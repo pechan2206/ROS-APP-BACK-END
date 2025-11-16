@@ -7,6 +7,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/api/menus")
@@ -24,8 +25,8 @@ public class MenuController {
 
     // 🔹 Buscar un menú por su ID
     @GetMapping("/{id}")
-    public ResponseEntity<Menu> obtenerPorId(@PathVariable Integer id) {
-        Menu menu = menuService.obtenerPorId(id);
+    public ResponseEntity<Optional<Menu>> obtenerPorId(@PathVariable Integer id) {
+        Optional<Menu> menu = menuService.obtenerPorId(id);
         return ResponseEntity.ok(menu);
     }
 

@@ -12,4 +12,5 @@ public interface ProductoService {
     Producto guardar(Producto producto);
     void eliminar(Integer id);
     Producto actualizar(Integer id, Producto producto);
+    List<Producto> buscarPorNombre(String nombre);
 }

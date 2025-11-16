@@ -7,6 +7,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/api/cajas")
@@ -24,8 +25,8 @@ public class CajaController {
 
     // 🔹 Buscar una caja por su ID
     @GetMapping("/{id}")
-    public ResponseEntity<Caja> obtenerPorId(@PathVariable Integer id) {
-        Caja caja = cajaService.obtenerPorId(id);
+    public ResponseEntity<Optional<Caja>> obtenerPorId(@PathVariable Integer id) {
+        Optional<Caja> caja = cajaService.obtenerPorId(id);
         return ResponseEntity.ok(caja);
     }
 
@@ -51,11 +52,13 @@ public class CajaController {
     }
 
     // 🔹 Actualizar el saldo final de una caja
-    @PutMapping("/{id}/saldo-final")
-    public ResponseEntity<Caja> actualizarSaldoFinal(
-            @PathVariable Integer id,
-            @RequestParam Double nuevoSaldoFinal) {
-        Caja caja = cajaService.actualizarSaldoFinal(id, nuevoSaldoFinal);
-        return ResponseEntity.ok(caja);
-    }
+
+@PutMapping("/{id}/saldo-final")
+public ResponseEntity<Caja> actualizarSaldoFinal(
+        @PathVariable Integer id,
+        @RequestParam Double nuevoSaldoFinal) {
+
+    Caja caja = cajaService.actualizarSaldoFinal(id, nuevoSaldoFinal);
+    return ResponseEntity.ok(caja);
+}
 }

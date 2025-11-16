@@ -12,4 +12,5 @@ public interface FacturaService {
     Factura guardar(Factura factura);
     void eliminar(Integer id);
     Factura actualizar(Integer id, Factura factura);
+    List<Factura> buscarPorCliente(Integer idCliente);
 }

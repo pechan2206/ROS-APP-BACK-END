@@ -12,4 +12,5 @@ public interface DomicilioService {
     Domicilio guardar(Domicilio domicilio);
     void eliminar(Integer id);
     Domicilio actualizar(Integer id, Domicilio domicilio);
+    List<Domicilio> buscarPorTelefono(String telefono);
 }

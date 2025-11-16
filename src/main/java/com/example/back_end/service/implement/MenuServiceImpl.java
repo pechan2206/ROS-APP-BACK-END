@@ -41,4 +41,16 @@ public class MenuServiceImpl implements MenuService {
     public Menu actualizar(Integer id, Menu menu){
         return menuRepository.save(menu);
     }
+
+    @Override
+    public List<Menu> listarPorPrecioMenor(Double precioMax) {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'listarPorPrecioMenor'");
+    }
+
+    @Override
+    public List<Menu> buscarPorNombre(String nombre) {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'buscarPorNombre'");
+    }
 }

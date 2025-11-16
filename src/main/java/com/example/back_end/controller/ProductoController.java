@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/api/productos")
@@ -23,8 +24,8 @@ public class ProductoController {
 
     // 🔹 Buscar producto por ID
     @GetMapping("/{id}")
-    public ResponseEntity<Producto> obtenerPorId(@PathVariable Integer id) {
-        Producto producto = productoService.obtenerPorId(id);
+    public ResponseEntity<Optional<Producto>> obtenerPorId(@PathVariable Integer id) {
+        Optional<Producto> producto = productoService.obtenerPorId(id);
         return ResponseEntity.ok(producto);
     }
 
