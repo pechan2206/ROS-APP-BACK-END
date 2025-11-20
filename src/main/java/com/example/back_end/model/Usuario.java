@@ -34,7 +34,7 @@ public class Usuario {
     @Column(name = "email_usuario", length = 100)
     private String emailUsuario;
 
-    @Column(name = "id_rol")
+    @Column(name = "fk_id_rol")
     private Integer idRol;
 
     // RELACIÓN muchos a uno con Roles
