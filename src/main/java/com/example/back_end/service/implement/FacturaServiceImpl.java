@@ -41,5 +41,11 @@ public class FacturaServiceImpl implements FacturaService {
     public Factura actualizar(Integer id, Factura documento){
         return facturaRepository.save(documento);
     }
+
+    @Override
+    public List<Factura> buscarPorCliente(Integer idCliente) {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'buscarPorCliente'");
+    }
 }
 

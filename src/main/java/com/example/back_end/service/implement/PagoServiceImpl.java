@@ -7,6 +7,7 @@ import com.example.back_end.service.PagoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
@@ -41,5 +42,23 @@ public class PagoServiceImpl implements PagoService {
     @Override
     public Pago actualizar(Integer id, Pago menuCategoria){
         return pagoRepository.save(menuCategoria);
+    }
+
+    @Override
+    public List<Pago> listarPorMetodo(String metodo) {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'listarPorMetodo'");
+    }
+
+    @Override
+    public List<Pago> listarPorRangoFechas(LocalDateTime desde, LocalDateTime hasta) {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'listarPorRangoFechas'");
+    }
+
+    @Override
+    public Double calcularTotalPagosEntreFechas(LocalDateTime desde, LocalDateTime hasta) {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'calcularTotalPagosEntreFechas'");
     }
 }

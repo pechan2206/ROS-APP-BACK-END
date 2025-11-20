@@ -16,25 +16,39 @@ public class ClienteServiceImpl implements ClienteService {
     private ClienteRepository clienteRepository;
 
     @Override
-    public List<Cliente> listar(){
+    public List<Cliente> listar() {
         return clienteRepository.findAll();
     }
+
     @Override
-    public Optional<Cliente> obtenerPorId(Integer id){
+    public Optional<Cliente> obtenerPorId(Integer id) {
         return clienteRepository.findById(id);
     }
+
     @Override
-    public Cliente guardar(Cliente cliente){
+    public Cliente guardar(Cliente cliente) {
         return clienteRepository.save(cliente);
     }
+
     @Override
-    public void eliminar(Integer id){
+    public void eliminar(Integer id) {
         clienteRepository.deleteById(id);
     }
 
-    //modificar esto
     @Override
-    public Cliente actualizar(Integer id, Cliente cliente){
-        return clienteRepository.save(cliente);
+    public Cliente actualizar(Integer id, Cliente clienteActualizado) {
+        return clienteRepository.findById(id)
+                .map(cliente -> {
+                    cliente.setNombre(clienteActualizado.getNombre());
+                    cliente.setCorreo(clienteActualizado.getCorreo());
+                    cliente.setTelefono(clienteActualizado.getTelefono());
+                    return clienteRepository.save(cliente);
+                })
+                .orElseThrow(() -> new RuntimeException("Cliente no encontrado con ID: " + id));
+    }
+
+    @Override
+    public List<Cliente> buscarPorNombre(String nombre) {
+        return clienteRepository.findByNombreContainingIgnoreCase(nombre);
     }
 }

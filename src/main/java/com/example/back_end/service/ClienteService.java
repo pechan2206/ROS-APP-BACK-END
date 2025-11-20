@@ -12,4 +12,7 @@ public interface ClienteService {
     Cliente guardar(Cliente cliente);
     void eliminar(Integer id);
     Cliente actualizar(Integer id, Cliente cliente);
+
+    // 🔹 Agregar este método
+    List<Cliente> buscarPorNombre(String nombre);
 }

@@ -16,28 +16,46 @@ public class CajaServiceImpl implements CajaService {
     private CajaRepository cajaRepository;
 
     @Override
-    public List<Caja> listar(){
+    public List<Caja> listar() {
         return cajaRepository.findAll();
     }
 
     @Override
-    public Optional<Caja> obtenerPorId(Integer id){
+    public Optional<Caja> obtenerPorId(Integer id) {
         return cajaRepository.findById(id);
     }
 
     @Override
-    public Caja guardar(Caja caja){
+    public Caja guardar(Caja caja) {
         return cajaRepository.save(caja);
     }
 
     @Override
-    public void eliminar(Integer id){
+    public void eliminar(Integer id) {
         cajaRepository.deleteById(id);
     }
 
     @Override
-    public Caja actualizar(Integer id, Caja caja){
-        return cajaRepository.save(caja);
+    public Caja actualizar(Integer id, Caja cajaActualizada) {
+        return cajaRepository.findById(id)
+                .map(caja -> {
+                    caja.setNombreCaja(cajaActualizada.getNombreCaja());
+                    caja.setSaldoInicial(cajaActualizada.getSaldoInicial());
+                    caja.setSaldoFinal(cajaActualizada.getSaldoFinal());
+                    caja.setPedidos(cajaActualizada.getPedidos());
+                    caja.setDomicilios(cajaActualizada.getDomicilios());
+                    return cajaRepository.save(caja);
+                })
+                .orElseThrow(() -> new RuntimeException("Caja no encontrada con ID: " + id));
     }
 
+    @Override
+    public Caja actualizarSaldoFinal(Integer id, Double nuevoSaldoFinal) {
+        return cajaRepository.findById(id)
+                .map(caja -> {
+                    caja.setSaldoFinal(nuevoSaldoFinal);
+                    return cajaRepository.save(caja);
+                })
+                .orElseThrow(() -> new RuntimeException("Caja no encontrada con ID: " + id));
+    }
 }

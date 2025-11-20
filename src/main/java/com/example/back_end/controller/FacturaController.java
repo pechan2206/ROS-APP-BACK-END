@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/api/facturas")
@@ -23,8 +24,8 @@ public class FacturaController {
 
     // 🔹 Buscar factura por ID
     @GetMapping("/{id}")
-    public ResponseEntity<Factura> obtenerPorId(@PathVariable Integer id) {
-        Factura factura = facturaService.obtenerPorId(id);
+    public ResponseEntity<Optional<Factura>> obtenerPorId(@PathVariable Integer id) {
+        Optional<Factura> factura = facturaService.obtenerPorId(id);
         return ResponseEntity.ok(factura);
     }
 

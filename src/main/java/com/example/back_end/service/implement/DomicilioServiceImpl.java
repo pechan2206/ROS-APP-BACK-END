@@ -41,6 +41,12 @@ public class DomicilioServiceImpl implements DomicilioService {
     public Domicilio actualizar(Integer id, Domicilio domicilio){
         return domicilioRepository.save(domicilio);
     }
+
+    @Override
+    public List<Domicilio> buscarPorTelefono(String telefono) {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'buscarPorTelefono'");
+    }
 }
 
 

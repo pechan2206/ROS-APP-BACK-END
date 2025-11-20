@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/api/pagos")
@@ -25,8 +26,8 @@ public class PagoController {
 
     // 🔹 Obtener un pago por ID
     @GetMapping("/{id}")
-    public ResponseEntity<Pago> obtenerPorId(@PathVariable Integer id) {
-        Pago pago = pagoService.obtenerPorId(id);
+    public ResponseEntity<Optional<Pago>> obtenerPorId(@PathVariable Integer id) {
+        Optional<Pago> pago = pagoService.obtenerPorId(id);
         return ResponseEntity.ok(pago);
     }
 

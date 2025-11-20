@@ -11,6 +11,10 @@ public interface CajaService {
     Optional<Caja> obtenerPorId(Integer id);
     Caja guardar(Caja caja);
     void eliminar(Integer id);
-    Caja actualizar(Integer id, Caja caja);
 
+    // Actualizar una caja completa
+    Caja actualizar(Integer id, Caja cajaActualizada);
+
+    // Actualizar solo el saldo final
+    Caja actualizarSaldoFinal(Integer id, Double nuevoSaldoFinal);
 }
