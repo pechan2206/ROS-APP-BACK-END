@@ -1,20 +1,17 @@
 package com.example.back_end.model;
 
-
-import jakarta.persistence.Entity;
-import jakarta.persistence.Table;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.util.List;
+import java.time.LocalDateTime;
 
-@Data
-@AllArgsConstructor
-@NoArgsConstructor
 @Entity
 @Table(name = "usuarios")
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
 public class Usuario {
 
     @Id
@@ -22,24 +19,31 @@ public class Usuario {
     @Column(name = "id_usuario")
     private Integer idUsuario;
 
-    @Column(name = "nombre_usuario", nullable = false, length = 100)
-    private String nombreUsuario;
+    @Column(nullable = false, length = 100)
+    private String nombre;
 
-    @Column(name = "apellido_usuario", nullable = false, length = 100)
-    private String apellidoUsuario;
+    @Column(length = 100)
+    private String apellido;
 
-    @Column(name = "telefono_usuario", length = 50)
-    private String telefonoUsuario;
+    @Column(nullable = false, length = 100, unique = true)
+    private String correo;
 
-    @Column(name = "email_usuario", length = 100)
-    private String emailUsuario;
+    @Column(length = 20)
+    private String telefono;
 
-    @Column(name = "fk_id_rol")
-    private Integer idRol;
+    @Column(nullable = false, length = 255)
+    private String contrasena;
 
-    // RELACIÓN muchos a uno con Roles
-    @ManyToMany(mappedBy = "usuarios")
-    private List<Rol> roles;
+    @Enumerated(EnumType.STRING)
+    @Column(columnDefinition = "ENUM('Activo','Inactivo') DEFAULT 'Activo'")
+    private EstadoUsuario estado;
 
+    public enum EstadoUsuario { Activo, Inactivo }
 
+    @Column(name = "fecha_registro")
+    private LocalDateTime fechaRegistro;
+
+    @ManyToOne
+    @JoinColumn(name = "id_rol", nullable = false)
+    private Rol rol;
 }

@@ -12,7 +12,7 @@ public class ClienteSeeder {
     @Autowired
     private ClienteRepository clienteRepository;
 
-    @PostConstruct
+/*    @PostConstruct
     public void init() {
 
         // Evita duplicar datos
@@ -26,5 +26,5 @@ public class ClienteSeeder {
 
             System.out.println("✔ Clientes iniciales cargados correctamente");
         }
-    }
+    }*/
 }

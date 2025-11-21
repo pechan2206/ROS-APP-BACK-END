@@ -5,14 +5,13 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.util.Date;
-import java.util.List;
+import java.time.LocalDateTime;
 
-@Data
-@AllArgsConstructor
-@NoArgsConstructor
 @Entity
 @Table(name = "pedidos")
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
 public class Pedido {
 
     @Id
@@ -20,23 +19,32 @@ public class Pedido {
     @Column(name = "id_pedido")
     private Integer idPedido;
 
-    @Column(name = "fecha_pedido")
-    @Temporal(TemporalType.TIMESTAMP)
-    private Date fechaPedido;
-
-    @Column(name = "total_pedido")
-    private Double totalPedido;
-
-    @Column(name = "id_mesa")
-    private Integer idMesa;
-
-    // RELACIÓN muchos a uno con mesas
     @ManyToOne
-    @JoinColumn(name = "id_mesa", insertable = false, updatable = false)
+    @JoinColumn(name = "id_mesa")
     private Mesa mesa;
 
-    @ManyToMany(mappedBy = "pedidos")
-    private List<Caja> cajas;
+    @ManyToOne
+    @JoinColumn(name = "id_usuario")
+    private Usuario usuario;
 
+    @ManyToOne
+    @JoinColumn(name = "id_cliente")
+    private Cliente cliente;
 
+    @Column
+    private LocalDateTime fecha;
+
+    @Enumerated(EnumType.STRING)
+    @Column(columnDefinition = "ENUM('Pendiente','En preparación','Entregado','Cancelado') DEFAULT 'Pendiente'")
+    private EstadoPedido estado;
+
+    public enum EstadoPedido {
+        Pendiente,
+        En_preparación,
+        Entregado,
+        Cancelado
+    }
+
+    @Column
+    private Double total;
 }

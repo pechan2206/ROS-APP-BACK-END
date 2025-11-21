@@ -33,8 +33,8 @@ public class UsuarioController {
     }
 
     @PutMapping("/{id}")
-    public Usuario actualizar(@PathVariable Integer id, @RequestBody Usuario producto) {
-        return usuarioService.actualizar(id, producto);
+    public Usuario actualizar(@PathVariable Integer id, @RequestBody Usuario usuario) {
+        return usuarioService.actualizar(id, usuario);
     }
 
     @DeleteMapping("/{id}")

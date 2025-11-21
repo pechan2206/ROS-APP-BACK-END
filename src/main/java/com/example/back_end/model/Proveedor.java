@@ -5,14 +5,11 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.util.List;
-
-
-@Data
-@AllArgsConstructor
-@NoArgsConstructor
 @Entity
 @Table(name = "proveedores")
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
 public class Proveedor {
 
     @Id
@@ -20,21 +17,15 @@ public class Proveedor {
     @Column(name = "id_proveedor")
     private Integer idProveedor;
 
-    @Column(name = "nombre", length = 255, nullable = false)
+    @Column(nullable = false, length = 100)
     private String nombre;
 
-    @Column(name = "telefono", length = 50)
+    @Column(length = 20)
     private String telefono;
 
-    @Column(name = "direccion", length = 255)
+    @Column(length = 100)
+    private String correo;
+
+    @Column(length = 150)
     private String direccion;
-
-    @ManyToMany
-    @JoinTable(
-            name = "proveedores_productos",
-            joinColumns = @JoinColumn(name = "fk_id_proveedor"),
-            inverseJoinColumns = @JoinColumn(name = "fk_id_producto")
-    )
-    private List<Producto> productos;
-
 }

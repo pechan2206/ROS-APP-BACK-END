@@ -6,13 +6,11 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.util.List;
-
-@Data
-@AllArgsConstructor
-@NoArgsConstructor
 @Entity
 @Table(name = "mesas")
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
 public class Mesa {
 
     @Id
@@ -20,15 +18,14 @@ public class Mesa {
     @Column(name = "id_mesa")
     private Integer idMesa;
 
-    @Column(name = "numero_mesa", nullable = false)
-    private String numeroMesa;
+    @Column(nullable = false)
+    private Integer numero;
+
+    @Column
+    private Integer capacidad;
 
     @Enumerated(EnumType.STRING)
-    @Column(name = "estado", length = 50)
+    @Column(columnDefinition = "ENUM('Disponible','Ocupada','Reservada') DEFAULT 'Disponible'")
     private EstadoMesa estado;
-
-    // RELACIÓN uno a muchos con pedidos
-    @OneToMany(mappedBy = "mesa")
-    private List<Pedido> pedidos;
 
 }

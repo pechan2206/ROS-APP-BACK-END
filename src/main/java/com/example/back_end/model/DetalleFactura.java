@@ -5,11 +5,11 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-@Data
-@AllArgsConstructor
-@NoArgsConstructor
 @Entity
-@Table(name = "detalles_factura")
+@Table(name = "detalle_factura")
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
 public class DetalleFactura {
 
     @Id
@@ -17,25 +17,20 @@ public class DetalleFactura {
     @Column(name = "id_detalle_factura")
     private Integer idDetalleFactura;
 
-    @Column(name = "id_factura")
-    private Integer idFactura;
-
-    @Column(name = "id_producto")
-    private Integer idProducto;
-
-    @Column(name = "cantidad")
-    private Integer cantidad;
-
-    @Column(name = "subtotal")
-    private Double subtotal;
-
-    // Relaciones
     @ManyToOne
-    @JoinColumn(name = "id_factura", insertable = false, updatable = false)
+    @JoinColumn(name = "id_factura", nullable = false)
     private Factura factura;
 
     @ManyToOne
-    @JoinColumn(name = "id_producto", insertable = false, updatable = false)
-    private Producto producto;
+    @JoinColumn(name = "id_plato", nullable = false)
+    private Plato plato;
 
+    @Column(nullable = false)
+    private Integer cantidad;
+
+    @Column(name = "precio_unitario", nullable = false)
+    private Double precioUnitario;
+
+    @Column(nullable = false)
+    private Double subtotal;
 }
