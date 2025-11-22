@@ -16,10 +16,10 @@ public class DetallePedido {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id_detalle_pedido")
+    @Column(name = "id_detalle")
     private Integer idDetallePedido;
 
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne(cascade = CascadeType.MERGE)
     @JoinColumn(name = "id_pedido", nullable = false)
     private Pedido pedido;
 

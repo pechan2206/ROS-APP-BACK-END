@@ -41,7 +41,8 @@ public class Usuario {
     public enum EstadoUsuario { Activo, Inactivo }
 
     @Column(name = "fecha_registro")
-    private LocalDateTime fechaRegistro;
+    private LocalDateTime fechaRegistro = LocalDateTime.now();
+
 
     @ManyToOne
     @JoinColumn(name = "id_rol", nullable = false)

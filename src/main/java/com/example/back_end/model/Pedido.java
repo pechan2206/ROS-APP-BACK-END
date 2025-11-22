@@ -1,5 +1,6 @@
 package com.example.back_end.model;
 
+import com.example.back_end.model.enums.EstadoPedido;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -38,12 +39,7 @@ public class Pedido {
     @Column(columnDefinition = "ENUM('Pendiente','En preparación','Entregado','Cancelado') DEFAULT 'Pendiente'")
     private EstadoPedido estado;
 
-    public enum EstadoPedido {
-        Pendiente,
-        En_preparación,
-        Entregado,
-        Cancelado
-    }
+
 
     @Column
     private Double total;

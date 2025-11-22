@@ -2,29 +2,46 @@ package com.example.back_end.seeder;
 
 import com.example.back_end.model.Cliente;
 import com.example.back_end.repository.ClienteRepository;
-import jakarta.annotation.PostConstruct;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
+import org.springframework.boot.CommandLineRunner;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
 
-@Component
+import java.time.LocalDate;
+
+@Configuration
 public class ClienteSeeder {
 
-    @Autowired
-    private ClienteRepository clienteRepository;
+    @Bean
+    CommandLineRunner seedClientes(ClienteRepository clienteRepository) {
+        return args -> {
+            if (clienteRepository.count() == 0) {
+                clienteRepository.save(new Cliente(
+                        null,
+                        "Juan Pérez",
+                        "3001112222",
+                        "juan.perez@gmail.com",
+                        "Calle 123 #45-67",
+                        LocalDate.now().minusDays(10).atStartOfDay()
+                ));
 
-/*    @PostConstruct
-    public void init() {
+                clienteRepository.save(new Cliente(
+                        null,
+                        "María Gómez",
+                        "3003334444",
+                        "maria.gomez@gmail.com",
+                        "Carrera 78 #12-34",
+                        LocalDate.now().minusDays(8).atStartOfDay()
+                ));
 
-        // Evita duplicar datos
-        if (clienteRepository.count() == 0) {
-
-            Cliente cliente1 = new Cliente(null, "Juan Pérez", "123456789", "Calle 1", null);
-            Cliente cliente2 = new Cliente(null, "Ana López", "987654321", "Calle 2", null);
-
-            clienteRepository.save(cliente1);
-            clienteRepository.save(cliente2);
-
-            System.out.println("✔ Clientes iniciales cargados correctamente");
-        }
-    }*/
+                clienteRepository.save(new Cliente(
+                        null,
+                        "Carlos Ramírez",
+                        "3005556666",
+                        "carlos.ramirez@gmail.com",
+                        "Avenida Siempre Viva 742",
+                        LocalDate.now().minusDays(5).atStartOfDay()
+                ));
+            }
+        };
+    }
 }
