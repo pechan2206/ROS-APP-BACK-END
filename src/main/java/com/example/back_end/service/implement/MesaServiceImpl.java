@@ -1,7 +1,6 @@
 package com.example.back_end.service.implement;
 
 import com.example.back_end.model.Mesa;
-
 import com.example.back_end.model.enums.EstadoMesa;
 import com.example.back_end.repository.MesaRepository;
 import com.example.back_end.service.MesaService;
@@ -24,7 +23,7 @@ public class MesaServiceImpl implements MesaService {
     @Override
     public Mesa obtenerPorId(Integer id) {
         return mesaRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Mesa no encontrada con ID: " + id));
+                .orElse(null);
     }
 
     @Override
@@ -38,16 +37,22 @@ public class MesaServiceImpl implements MesaService {
     }
 
     @Override
-    public Mesa actualizar(Integer id, Mesa mesaActualizada) {
-        Mesa mesaExistente = obtenerPorId(id);
-        mesaExistente.setEstado(mesaActualizada.getEstado());
+    public Mesa actualizar(Integer id, Mesa mesa) {
+        Mesa m = obtenerPorId(id);
+        if (m == null) return null;
 
-        return mesaRepository.save(mesaExistente);
+        m.setNumero(mesa.getNumero());
+        m.setCapacidad(mesa.getCapacidad());
+        m.setEstado(mesa.getEstado());
+
+        return mesaRepository.save(m);
     }
 
     @Override
     public Mesa actualizarEstado(Integer id, EstadoMesa nuevoEstado) {
         Mesa mesa = obtenerPorId(id);
+        if (mesa == null) return null;
+
         mesa.setEstado(nuevoEstado);
         return mesaRepository.save(mesa);
     }

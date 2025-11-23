@@ -21,7 +21,7 @@ public class PlatoSeeder {
 
                 // Obtener categorías
                 CategoriaPlato entradas = categoriaPlatoRepository.findByNombre("Entradas").orElseThrow();
-                CategoriaPlato principales = categoriaPlatoRepository.findByNombre("Platos Principales").orElseThrow();
+                CategoriaPlato principales = categoriaPlatoRepository.findByNombre("Principales").orElseThrow();
                 CategoriaPlato postres = categoriaPlatoRepository.findByNombre("Postres").orElseThrow();
 
                 // Insertar platos

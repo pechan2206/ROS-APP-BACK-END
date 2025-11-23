@@ -23,14 +23,14 @@ public class InsumoSeeder {
 
             // --- Categorías necesarias ---
             CategoriaInsumo categoriaVerdura = categoriaRepository
-                    .findByNombre("Verdura")
+                    .findByNombre("Verduras")
                     .orElseGet(() -> {
                         System.out.println("Creando categoría Verdura...");
                         return categoriaRepository.save(new CategoriaInsumo(null, "Verdura", "Verduras frescas"));
                     });
 
             CategoriaInsumo categoriaCarne = categoriaRepository
-                    .findByNombre("Carne")
+                    .findByNombre("Carnes")
                     .orElseGet(() -> {
                         System.out.println("Creando categoría Carne...");
                         return categoriaRepository.save(new CategoriaInsumo(null, "Carne", "Carnes seleccionadas"));

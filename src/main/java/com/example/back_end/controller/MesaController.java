@@ -4,7 +4,6 @@ import com.example.back_end.model.Mesa;
 import com.example.back_end.model.enums.EstadoMesa;
 import com.example.back_end.service.MesaService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -17,50 +16,57 @@ public class MesaController {
     @Autowired
     private MesaService mesaService;
 
-    // 🔹 Listar todas las mesas
+    // LISTAR
     @GetMapping
     public List<Mesa> listar() {
         return mesaService.listar();
     }
 
-    // 🔹 Buscar una mesa por su ID
+    // OBTENER POR ID
     @GetMapping("/{id}")
-    public ResponseEntity<Mesa> obtenerPorId(@PathVariable Integer id) {
-        Mesa mesa = mesaService.obtenerPorId(id);
-        return ResponseEntity.ok(mesa);
+    public Mesa obtener(@PathVariable Integer id) {
+        return mesaService.obtenerPorId(id);
     }
 
-    // 🔹 Crear una nueva mesa
+    // CREAR
     @PostMapping
-    public ResponseEntity<Mesa> guardar(@RequestBody Mesa mesa) {
-        Mesa nuevaMesa = mesaService.guardar(mesa);
-        return ResponseEntity.ok(nuevaMesa);
+    public Mesa crear(@RequestBody Mesa mesa) {
+        return mesaService.guardar(mesa);
     }
 
-    // 🔹 Actualizar una mesa completa
+    // EDITAR
     @PutMapping("/{id}")
-    public ResponseEntity<Mesa> actualizar(@PathVariable Integer id, @RequestBody Mesa mesaActualizada) {
-        Mesa mesa = mesaService.actualizar(id, mesaActualizada);
-        return ResponseEntity.ok(mesa);
+    public Mesa editar(@PathVariable Integer id, @RequestBody Mesa mesa) {
+        return mesaService.actualizar(id, mesa);
     }
 
-    // 🔹 Eliminar una mesa por ID
+    // ACTUALIZAR ESTADO
+    @PatchMapping("/{id}/estado")
+    public Mesa actualizarEstado(
+            @PathVariable Integer id,
+            @RequestBody EstadoRequest request
+    ) {
+        // Convertimos el string a ENUM correctamente
+        EstadoMesa estado = EstadoMesa.valueOf(request.getEstado().toUpperCase());
+        return mesaService.actualizarEstado(id, estado);
+    }
+
+    // ELIMINAR
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> eliminar(@PathVariable Integer id) {
+    public void eliminar(@PathVariable Integer id) {
         mesaService.eliminar(id);
-        return ResponseEntity.noContent().build();
     }
 
-    // 🔹 Listar mesas por estado (DISPONIBLE, OCUPADA, RESERVADA)
-    @GetMapping("/estado/{estado}")
-    public List<Mesa> listarPorEstado(@PathVariable EstadoMesa estado) {
-        return mesaService.listarPorEstado(estado);
-    }
+    // Clase interna para recibir el JSON { "estado": "OCUPADA" }
+    public static class EstadoRequest {
+        private String estado;
 
-    // 🔹 Cambiar el estado de una mesa
-    @PutMapping("/{id}/estado")
-    public ResponseEntity<Mesa> actualizarEstado(@PathVariable Integer id, @RequestParam EstadoMesa nuevoEstado) {
-        Mesa mesa = mesaService.actualizarEstado(id, nuevoEstado);
-        return ResponseEntity.ok(mesa);
+        public String getEstado() {
+            return estado;
+        }
+
+        public void setEstado(String estado) {
+            this.estado = estado;
+        }
     }
 }
