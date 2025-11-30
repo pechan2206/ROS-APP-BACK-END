@@ -1,6 +1,8 @@
 package com.example.back_end.controller;
 
 import com.example.back_end.model.Pedido;
+import com.example.back_end.model.enums.EstadoPedido;
+import com.example.back_end.model.enums.TipoPedido;
 import com.example.back_end.service.PedidoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -63,4 +65,5 @@ public class PedidoController {
     public List<Pedido> listarPorRangoFechas(@RequestParam Date desde, @RequestParam Date hasta) {
         return pedidoService.listarPorRangoFechas(desde, hasta);
     }
+
 }

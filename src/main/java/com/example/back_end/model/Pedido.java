@@ -1,6 +1,7 @@
 package com.example.back_end.model;
 
 import com.example.back_end.model.enums.EstadoPedido;
+import com.example.back_end.model.enums.TipoPedido;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -24,9 +25,6 @@ public class Pedido {
     @JoinColumn(name = "id_mesa")
     private Mesa mesa;
 
-    @ManyToOne
-    @JoinColumn(name = "id_usuario")
-    private Usuario usuario;
 
     @ManyToOne
     @JoinColumn(name = "id_cliente")
@@ -39,8 +37,9 @@ public class Pedido {
     @Column(columnDefinition = "ENUM('Pendiente','En preparación','Entregado','Cancelado') DEFAULT 'Pendiente'")
     private EstadoPedido estado;
 
-
-
     @Column
     private Double total;
+
+    @Column
+    private TipoPedido tipo;
 }

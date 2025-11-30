@@ -42,19 +42,39 @@ public class DetallePedidoSeeder {
                 Plato plato3 = plato3Opt.get();
 
                 // Crear detalles de pedido
-                DetallePedido dp1 = new DetallePedido(null, pedido1, plato1, 2,
-                        plato1.getPrecio(), plato1.getPrecio().multiply(BigDecimal.valueOf(2)));
+// Crear detalles de pedido
+                DetallePedido dp1 = new DetallePedido(
+                        null,                 // id
+                        pedido1,
+                        plato1,
+                        2,                    // cantidad
+                        null,                 // precio_unitario -> lo pone el trigger
+                        null                  // subtotal -> lo puedes poner con otro trigger o en backend
+                );
 
-                DetallePedido dp2 = new DetallePedido(null, pedido2, plato2, 1,
-                        plato2.getPrecio(), plato2.getPrecio());
+                DetallePedido dp2 = new DetallePedido(
+                        null,
+                        pedido2,
+                        plato2,
+                        1,
+                        null,
+                        null
+                );
 
-                DetallePedido dp3 = new DetallePedido(null, pedido3, plato3, 3,
-                        plato3.getPrecio(), plato3.getPrecio().multiply(BigDecimal.valueOf(3)));
+                DetallePedido dp3 = new DetallePedido(
+                        null,
+                        pedido3,
+                        plato3,
+                        3,
+                        null,
+                        null
+                );
 
                 // Guardar detalles
                 detallePedidoRepository.save(dp1);
                 detallePedidoRepository.save(dp2);
                 detallePedidoRepository.save(dp3);
+
             }
         };
     }

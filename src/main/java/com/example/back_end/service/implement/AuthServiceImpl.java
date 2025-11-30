@@ -38,7 +38,6 @@ public class AuthServiceImpl implements AuthService {
         user.setCorreo(request.getCorreo());
         user.setContrasena(passwordEncoder.encode(request.getContrasena()));
         user.setTelefono(request.getTelefono());
-        user.setEstado(Usuario.EstadoUsuario.Activo);
         user.setFechaRegistro(LocalDateTime.now());
         user.setRol(request.getRol()); // si el DTO trae el rol, ajusta aquí
 
@@ -60,6 +59,6 @@ public class AuthServiceImpl implements AuthService {
         // Se genera token usando el correo
         String token = jwtUtil.generateToken(user.getCorreo());
 
-        return new LoginResponse(token);
+        return new LoginResponse(token, user.getRol().getNombre());
     }
 }

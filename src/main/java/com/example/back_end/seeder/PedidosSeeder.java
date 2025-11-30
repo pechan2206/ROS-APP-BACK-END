@@ -5,6 +5,7 @@ import com.example.back_end.model.Pedido;
 import com.example.back_end.model.Usuario;
 import com.example.back_end.model.Cliente;
 import com.example.back_end.model.enums.EstadoPedido;
+import com.example.back_end.model.enums.TipoPedido;
 import com.example.back_end.repository.MesaRepository;
 import com.example.back_end.repository.PedidoRepository;
 import com.example.back_end.repository.UsuarioRepository;
@@ -33,13 +34,48 @@ public class PedidosSeeder {
                 // Pedidos
                 Mesa mesa1 = mesaRepository.findById(1).orElseThrow();
                 Mesa mesa2 = mesaRepository.findById(2).orElseThrow();
-                Mesa mesa3 = mesaRepository.findById(3).orElseThrow();
-                Mesa mesa4 = mesaRepository.findById(4).orElseThrow();
 
-                pedidoRepository.save(new Pedido(null, mesa1, mesero, cliente1, LocalDateTime.now(), EstadoPedido.Pendiente, 0.0));
-                pedidoRepository.save(new Pedido(null, mesa2, mesero, cliente1, LocalDateTime.now(), EstadoPedido.En_preparación, 0.0));
-                pedidoRepository.save(new Pedido(null, mesa3, mesero, cliente1, LocalDateTime.now(), EstadoPedido.Entregado, 0.0));
-                pedidoRepository.save(new Pedido(null, mesa4, mesero, cliente1, LocalDateTime.now(), EstadoPedido.Cancelado, 0.0));
+
+                pedidoRepository.save(new Pedido(
+                        null,           // id_pedido
+                        mesa1,          // mesa
+                        cliente1,       // cliente
+                        null,           // fecha -> la BD la pone
+                        EstadoPedido.Pendiente,
+                        0.0,            // total -> luego se recalcula por triggers
+                        TipoPedido.Mesa
+                ));
+
+                pedidoRepository.save(new Pedido(
+                        null,
+                        mesa2,
+                        cliente1,
+                        null,
+                        EstadoPedido.En_preparación,
+                        0.0,
+                        TipoPedido.Mesa
+                ));
+
+                pedidoRepository.save(new Pedido(
+                        null,
+                        null,           // no tiene mesa
+                        cliente1,
+                        null,
+                        EstadoPedido.Entregado,
+                        0.0,
+                        TipoPedido.Domicilio
+                ));
+
+                pedidoRepository.save(new Pedido(
+                        null,
+                        null,
+                        cliente1,
+                        null,
+                        EstadoPedido.Cancelado,
+                        0.0,
+                        TipoPedido.Llevar
+                ));
+
             }
         };
     }

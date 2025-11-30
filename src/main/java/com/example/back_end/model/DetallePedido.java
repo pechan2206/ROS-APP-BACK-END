@@ -30,9 +30,9 @@ public class DetallePedido {
     @Column(nullable = false)
     private Integer cantidad;
 
-    @Column(name = "precio_unitario", nullable = false)
+    @Column(name = "precio_unitario", nullable = true)
     private BigDecimal precioUnitario;
 
-    @Column(nullable = false)
+    @Column(nullable = true)
     private BigDecimal subtotal;
 }

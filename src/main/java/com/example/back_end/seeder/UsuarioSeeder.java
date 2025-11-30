@@ -33,6 +33,23 @@ public class UsuarioSeeder {
                         adminRol
                 );
 
+                Rol meseroRol = rolRepository.findByNombre("Mero")
+                        .orElseThrow(() -> new RuntimeException("Rol Administrador no encontrado"));
+                Usuario mesero = new Usuario(
+                        null,
+                        "Andres",
+                        "Andrade",
+                        "mesero@restaurante.com",
+                        "3001234567",
+                        passwordEncoder.encode("123456"),
+                        Usuario.EstadoUsuario.Activo, // 🔹 Ahora usamos el enum
+                        null,
+                        meseroRol
+
+                );
+
+
+                usuarioRepository.save(mesero);
                 usuarioRepository.save(admin);
             }
         };
