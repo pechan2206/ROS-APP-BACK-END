@@ -51,7 +51,7 @@ public class PedidosSeeder {
                         mesa2,
                         cliente1,
                         null,
-                        EstadoPedido.En_preparación,
+                        EstadoPedido.En_preparacion,
                         0.0,
                         TipoPedido.Mesa
                 ));
