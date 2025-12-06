@@ -84,4 +84,10 @@ public class DetallePedidoServiceImpl implements DetallePedidoService {
     public void delete(Integer id) {
         detallePedidoRepository.deleteById(id);
     }
+
+    @Override
+    public List<DetallePedido> obtenerDetallesPorPedidoId(Integer pedidoId) {
+        return detallePedidoRepository.findByPedidoId(pedidoId);
+    }
+
 }

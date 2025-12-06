@@ -1,6 +1,8 @@
 package com.example.back_end.service.implement;
 
+import com.example.back_end.model.Cliente;
 import com.example.back_end.model.Pedido;
+import com.example.back_end.repository.ClienteRepository;
 import com.example.back_end.repository.PedidoRepository;
 import com.example.back_end.service.PedidoService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,6 +17,8 @@ public class PedidoServiceImpl implements PedidoService {
 
     @Autowired
     private PedidoRepository pedidoRepository;
+    @Autowired
+    private ClienteRepository clienteRepository;
 
     @Override
     public List<Pedido> listar(){
@@ -27,9 +31,24 @@ public class PedidoServiceImpl implements PedidoService {
     }
 
     @Override
-    public Pedido guardar(Pedido menuCategoria){
-        return pedidoRepository.save(menuCategoria);
+    public Pedido guardar(Pedido pedido) {
+
+        // Buscar cliente por teléfono antes de guardar
+        if (pedido.getCliente() != null && pedido.getCliente().getTelefono() != null) {
+            Cliente clienteExistente = clienteRepository.findByTelefono(pedido.getCliente().getTelefono());
+
+            if (clienteExistente != null) {
+                pedido.setCliente(clienteExistente);
+            } else {
+                // Si no existe, lo puedes crear automáticamente
+                Cliente nuevo = clienteRepository.save(pedido.getCliente());
+                pedido.setCliente(nuevo);
+            }
+        }
+
+        return pedidoRepository.save(pedido);
     }
+
 
     @Override
     public void eliminar(Integer id){
@@ -39,8 +58,8 @@ public class PedidoServiceImpl implements PedidoService {
 
     //Modificar funcionalidad
     @Override
-    public Pedido actualizar(Integer id, Pedido menuCategoria){
-        return pedidoRepository.save(menuCategoria);
+    public Pedido actualizar(Integer id, Pedido pedido){
+        return pedidoRepository.save(pedido);
     }
 
     @Override

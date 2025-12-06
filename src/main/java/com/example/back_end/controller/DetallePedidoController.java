@@ -11,6 +11,7 @@ import java.util.Optional;
 
 @RestController
 @RequestMapping("/api/detalles-pedido")
+@CrossOrigin(origins = "*")
 public class DetallePedidoController {
 
     private final DetallePedidoService detallePedidoService;
@@ -51,4 +52,18 @@ public class DetallePedidoController {
     public void delete(@PathVariable Integer id) {
         detallePedidoService.delete(id);
     }
+
+
+    // Obtener detalles por pedido
+
+    @GetMapping("/pedido/{id}")
+    public ResponseEntity<List<DetallePedido>> getDetallesPorPedido(@PathVariable Integer id) {
+        List<DetallePedido> detalles = detallePedidoService.obtenerDetallesPorPedidoId(id);
+        return ResponseEntity.ok(detalles);
+    }
+
+
+
+
+
 }

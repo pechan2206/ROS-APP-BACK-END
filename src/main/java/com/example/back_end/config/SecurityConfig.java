@@ -20,7 +20,7 @@ public class SecurityConfig {
                         .requestMatchers(
                                 "/v3/api-docs/**",
                                 "/swagger-ui/**",
-                                "/swagger-ui.html"
+                                "/swaggerhtml-ui."
                         ).permitAll()
 
                         // 🔹 Todo lo demás libre (puedes cambiar a authenticated() luego)

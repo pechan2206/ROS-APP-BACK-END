@@ -16,4 +16,7 @@ public interface DetallePedidoService {
     DetallePedido update(Integer id, DetallePedido detallePedido);
 
     void delete(Integer id);
+
+    List<DetallePedido> obtenerDetallesPorPedidoId(Integer pedidoId);
+
 }

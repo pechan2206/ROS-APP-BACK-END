@@ -45,8 +45,17 @@ public class ClienteController {
         return ResponseEntity.noContent().build();
     }
 
-    @GetMapping("/buscar")
+    @GetMapping("/buscar-nombre")
     public List<Cliente> buscarPorNombre(@RequestParam String nombre) {
         return clienteService.buscarPorNombre(nombre);
     }
+
+    @GetMapping("/buscar-telefono")
+    public ResponseEntity<List<Cliente>> buscarPorTelefono(@RequestParam String telefono) {
+        List<Cliente> clientes = clienteService.buscarPorTelefono(telefono);
+        return ResponseEntity.ok(clientes);
+    }
+
+
+
 }
