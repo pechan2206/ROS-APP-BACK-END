@@ -9,6 +9,8 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
+import java.util.List; // Importar List para usar saveAll
+
 @Configuration
 public class UsuarioSeeder {
 
@@ -17,9 +19,12 @@ public class UsuarioSeeder {
                                    RolRepository rolRepository,
                                    PasswordEncoder passwordEncoder) {
         return args -> {
+            // Solo siembra usuarios si no hay ninguno.
             if(usuarioRepository.count() == 0) {
+                
+                // --- 1. ADMINISTRADOR ---
                 Rol adminRol = rolRepository.findByNombre("Administrador")
-                        .orElseThrow(() -> new RuntimeException("Rol Administrador no encontrado"));
+                        .orElseThrow(() -> new RuntimeException("Rol Administrador no encontrado. Asegúrate de que exista en la DB."));
 
                 Usuario admin = new Usuario(
                         null,
@@ -28,13 +33,16 @@ public class UsuarioSeeder {
                         "admin@restaurante.com",
                         "3001234567",
                         passwordEncoder.encode("12345"),
-                        Usuario.EstadoUsuario.Activo, // 🔹 Ahora usamos el enum
-                        null,                 // fechaRegistro se puede dejar en null, JPA lo llenará si configuras default
+                        Usuario.EstadoUsuario.Activo,
+                        null,
                         adminRol
                 );
 
-                Rol meseroRol = rolRepository.findByNombre("Mero")
-                        .orElseThrow(() -> new RuntimeException("Rol Administrador no encontrado"));
+                // --- 2. MESERO ---
+                // ✅ CORRECCIÓN: Usamos "Mesero" en lugar de "Mero" y la excepción correcta
+                Rol meseroRol = rolRepository.findByNombre("Mesero")
+                        .orElseThrow(() -> new RuntimeException("Rol Mesero no encontrado. Asegúrate de que exista en la DB."));
+
                 Usuario mesero = new Usuario(
                         null,
                         "Andres",
@@ -42,18 +50,32 @@ public class UsuarioSeeder {
                         "mesero@restaurante.com",
                         "3001234567",
                         passwordEncoder.encode("123456"),
-                        Usuario.EstadoUsuario.Activo, // 🔹 Ahora usamos el enum
+                        Usuario.EstadoUsuario.Activo,
                         null,
                         meseroRol
-
                 );
 
+                // --- 3. COCINERO (Nuevo Rol) ---
+                Rol cocineroRol = rolRepository.findByNombre("Cocinero")
+                        // ✅ Mensaje de excepción específico
+                        .orElseThrow(() -> new RuntimeException("Rol Cocinero no encontrado. Asegúrate de que exista en la DB."));
+                
+                Usuario cocinero = new Usuario(
+                        null,
+                        "Miguel",
+                        "Rodriguez",
+                        "cocinero@restaurante.com",
+                        "3001234999",
+                        passwordEncoder.encode("12345"),
+                        Usuario.EstadoUsuario.Activo,
+                        null,
+                        cocineroRol // Asignamos el rol de Cocinero
+                );
 
-                usuarioRepository.save(mesero);
-                usuarioRepository.save(admin);
+                // --- Guardar todos los usuarios ---
+                // Utilizando saveAll es más eficiente.
+                usuarioRepository.saveAll(List.of(admin, mesero, cocinero));
             }
         };
     }
-
-
 }
