@@ -28,7 +28,7 @@ public class PlatoSeeder {
 
                 // Insertar platos
                 platoRepository.save(new Plato(
-                        1,
+                        null,
                         "Ensalada César",
                         BigDecimal.valueOf(12500),
                         "Ensalada con pollo, lechuga, croutons y aderezo César",
@@ -37,7 +37,7 @@ public class PlatoSeeder {
                 ));
 
                 platoRepository.save(new Plato(
-                        2,
+                        null,
                         "Pollo a la Parrilla",
                         BigDecimal.valueOf(25000),
                         "Pollo marinado a la parrilla acompañado de verduras",
@@ -46,7 +46,7 @@ public class PlatoSeeder {
                 ));
 
                 platoRepository.save(new Plato(
-                        3,
+                        null,
                         "Pastel de Chocolate",
                         BigDecimal.valueOf(8000),
                         "Delicioso pastel de chocolate con crema",
