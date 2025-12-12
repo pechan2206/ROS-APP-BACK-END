@@ -29,6 +29,7 @@ public class UsuarioController {
 
     @PostMapping
     public Usuario guardar(@RequestBody Usuario usuario){
+
         return usuarioService.guardar(usuario);
     }
 

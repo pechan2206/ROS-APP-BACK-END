@@ -4,6 +4,7 @@ import com.example.back_end.model.Usuario;
 import com.example.back_end.repository.UsuarioRepository;
 import com.example.back_end.service.UsuarioService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -14,6 +15,9 @@ public class UsuarioServiceImpl implements UsuarioService {
 
     @Autowired
     private UsuarioRepository usuarioRepository;
+
+    @Autowired
+    private PasswordEncoder passwordEncoder;
 
     @Override
     public List<Usuario> listar(){
@@ -27,6 +31,8 @@ public class UsuarioServiceImpl implements UsuarioService {
 
     @Override
     public Usuario guardar(Usuario usuario){
+        String passwordHash = passwordEncoder.encode(usuario.getContrasena());
+        usuario.setContrasena(passwordHash);
         return usuarioRepository.save(usuario);
     }
 
@@ -38,7 +44,19 @@ public class UsuarioServiceImpl implements UsuarioService {
 
     //Modificar funcionalidad
     @Override
-    public Usuario actualizar(Integer id, Usuario usuario){
-        return usuarioRepository.save(usuario);
+    public Usuario actualizar(Integer id, Usuario datos) {
+        Usuario usuarioExistente = usuarioRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Usuario no encontrado"));
+
+
+        usuarioExistente.setEstado(datos.getEstado());
+        usuarioExistente.setNombre(datos.getNombre());
+        usuarioExistente.setApellido(datos.getApellido());
+        usuarioExistente.setTelefono(datos.getTelefono());
+        usuarioExistente.setRol(datos.getRol());
+        usuarioExistente.setCorreo(datos.getCorreo());
+
+        return usuarioRepository.save(usuarioExistente);
     }
+
 }

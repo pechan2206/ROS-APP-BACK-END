@@ -14,4 +14,7 @@ public interface PedidoRepository extends JpaRepository<Pedido,Integer> {
     @Query(value = "SELECT tipo, COUNT(*) AS total FROM pedidos GROUP BY tipo",
             nativeQuery = true)
     List<Map<String, Object>> contarPorTipo();
+
+
+
 }

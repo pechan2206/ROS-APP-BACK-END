@@ -11,7 +11,7 @@ import org.springframework.core.annotation.Order;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 import java.time.LocalDateTime;
-import java.util.List; // Importar List para usar saveAll
+import java.util.List;
 
 @Configuration
 public class UsuarioSeeder {
@@ -40,11 +40,9 @@ public class UsuarioSeeder {
                         null,
                         adminRol
                 );
-
                 admin.setFechaRegistro(LocalDateTime.now());
 
                 // --- 2. MESERO ---
-                // ✅ CORRECCIÓN: Usamos "Mesero" en lugar de "Mero" y la excepción correcta
                 Rol meseroRol = rolRepository.findByNombre("Mesero")
                         .orElseThrow(() -> new RuntimeException("Rol Mesero no encontrado. Asegúrate de que exista en la DB."));
 
@@ -60,9 +58,9 @@ public class UsuarioSeeder {
                         meseroRol
                 );
                 mesero.setFechaRegistro(LocalDateTime.now());
-                // --- 3. COCINERO (Nuevo Rol) ---
+
+                // --- 3. COCINERO ---
                 Rol cocineroRol = rolRepository.findByNombre("Cocinero")
-                        // ✅ Mensaje de excepción específico
                         .orElseThrow(() -> new RuntimeException("Rol Cocinero no encontrado. Asegúrate de que exista en la DB."));
 
                 Usuario cocinero = new Usuario(
@@ -74,12 +72,29 @@ public class UsuarioSeeder {
                         passwordEncoder.encode("12345"),
                         Usuario.EstadoUsuario.Activo,
                         null,
-                        cocineroRol // Asignamos el rol de Cocinero
+                        cocineroRol
                 );
                 cocinero.setFechaRegistro(LocalDateTime.now());
+
+                // --- 4. CAJERO (NUEVO) ---
+                Rol cajeroRol = rolRepository.findByNombre("Cajero")
+                        .orElseThrow(() -> new RuntimeException("Rol Cajero no encontrado. Asegúrate de que exista en la DB."));
+
+                Usuario cajero = new Usuario(
+                        null,
+                        "Laura",
+                        "Martinez",
+                        "cajero@restaurante.com",
+                        "3009876543",
+                        passwordEncoder.encode("12345"),
+                        Usuario.EstadoUsuario.Activo,
+                        null,
+                        cajeroRol
+                );
+                cajero.setFechaRegistro(LocalDateTime.now());
+
                 // --- Guardar todos los usuarios ---
-                // Utilizando saveAll es más eficiente.
-                usuarioRepository.saveAll(List.of(admin, mesero, cocinero));
+                usuarioRepository.saveAll(List.of(admin, mesero, cocinero, cajero));
             }
         };
     }
