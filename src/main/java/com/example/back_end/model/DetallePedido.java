@@ -1,6 +1,8 @@
 package com.example.back_end.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.Min;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -12,6 +14,7 @@ import java.math.BigDecimal;
 @NoArgsConstructor
 @AllArgsConstructor
 @Table(name = "detalle_pedido")
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class DetallePedido {
 
     @Id
@@ -23,10 +26,11 @@ public class DetallePedido {
     @JoinColumn(name = "id_pedido", nullable = false)
     private Pedido pedido;
 
-    @ManyToOne
+    @ManyToOne(optional = false)
     @JoinColumn(name = "id_plato", nullable = false)
     private Plato plato;
 
+    @Min(1)
     @Column(nullable = false)
     private Integer cantidad;
 
@@ -35,4 +39,5 @@ public class DetallePedido {
 
     @Column(nullable = true)
     private BigDecimal subtotal;
+
 }

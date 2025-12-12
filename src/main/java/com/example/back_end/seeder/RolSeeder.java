@@ -5,11 +5,13 @@ import com.example.back_end.repository.RolRepository;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.core.annotation.Order;
 
 @Configuration
 public class RolSeeder {
 
     @Bean
+    @Order(1)
     CommandLineRunner seedRoles(RolRepository rolRepository) {
         return args -> {
             if(rolRepository.count() == 0) {

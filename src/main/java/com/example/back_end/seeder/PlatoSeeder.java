@@ -7,6 +7,7 @@ import com.example.back_end.repository.PlatoRepository;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.core.annotation.Order;
 
 import java.math.BigDecimal;
 
@@ -14,6 +15,7 @@ import java.math.BigDecimal;
 public class PlatoSeeder {
 
     @Bean
+    @Order(6)
     CommandLineRunner seedPlatos(PlatoRepository platoRepository,
                                  CategoriaPlatoRepository categoriaPlatoRepository) {
         return args -> {
@@ -26,27 +28,27 @@ public class PlatoSeeder {
 
                 // Insertar platos
                 platoRepository.save(new Plato(
-                        null,
+                        1,
                         "Ensalada César",
-                        BigDecimal.valueOf(12.50),
+                        BigDecimal.valueOf(12500),
                         "Ensalada con pollo, lechuga, croutons y aderezo César",
                         null,
                         entradas
                 ));
 
                 platoRepository.save(new Plato(
-                        null,
+                        2,
                         "Pollo a la Parrilla",
-                        BigDecimal.valueOf(25.00),
+                        BigDecimal.valueOf(25000),
                         "Pollo marinado a la parrilla acompañado de verduras",
                         null,
                         principales
                 ));
 
                 platoRepository.save(new Plato(
-                        null,
+                        3,
                         "Pastel de Chocolate",
-                        BigDecimal.valueOf(8.00),
+                        BigDecimal.valueOf(8000),
                         "Delicioso pastel de chocolate con crema",
                         null,
                         postres

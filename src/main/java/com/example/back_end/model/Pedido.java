@@ -25,13 +25,12 @@ public class Pedido {
     @JoinColumn(name = "id_mesa")
     private Mesa mesa;
 
-
     @ManyToOne
     @JoinColumn(name = "id_cliente")
     private Cliente cliente;
 
     @Column
-    private LocalDateTime fecha;
+    private LocalDateTime fecha = LocalDateTime.now(); // <--- FECHA AUTOMÁTICA
 
     @Enumerated(EnumType.STRING)
     @Column(columnDefinition = "ENUM('Pendiente','En preparación','Entregado','Cancelado') DEFAULT 'Pendiente'")
@@ -40,6 +39,7 @@ public class Pedido {
     @Column
     private Double total;
 
+    @Enumerated(EnumType.ORDINAL)
     @Column
     private TipoPedido tipo;
 }

@@ -5,11 +5,13 @@ import com.example.back_end.repository.CategoriaPlatoRepository;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.core.annotation.Order;
 
 @Configuration
 public class CategoriaPlatoSeeder {
 
     @Bean
+    @Order(4)
     CommandLineRunner seedCategoriasPlato(CategoriaPlatoRepository categoriaPlatoRepository) {
         return args -> {
             if (categoriaPlatoRepository.count() == 0) {

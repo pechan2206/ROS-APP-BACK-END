@@ -5,11 +5,13 @@ import com.example.back_end.repository.MesaRepository;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.core.annotation.Order;
 
 @Configuration
 public class MesaSeeder {
 
     @Bean
+    @Order(7)
     CommandLineRunner seedMesas(MesaRepository mesaRepository) {
         return args -> {
             if (mesaRepository.count() == 0) {

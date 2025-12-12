@@ -1,6 +1,7 @@
 package com.example.back_end.model;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -17,9 +18,12 @@ public class Rol {
     @Column(name = "id_rol")
     private Integer idRol;
 
-    @Column(nullable = false, length = 50)
+    @NotBlank(message = "El nombre del rol es obligatorio")
+    @Size(max = 50, message = "El nombre del rol debe tener máximo 50 caracteres")
+    @Column(nullable = false, length = 50, unique = true)
     private String nombre;
 
+    @Size(max = 100, message = "La descripción debe tener máximo 100 caracteres")
     @Column(length = 100)
     private String descripcion;
 }

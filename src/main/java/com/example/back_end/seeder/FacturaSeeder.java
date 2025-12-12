@@ -11,6 +11,7 @@ import com.example.back_end.repository.PedidoRepository;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.core.annotation.Order;
 
 import java.time.LocalDateTime;
 
@@ -18,6 +19,7 @@ import java.time.LocalDateTime;
 public class FacturaSeeder {
 
     @Bean
+    @Order(12)
     CommandLineRunner seedFacturas(FacturaRepository facturaRepository,
                                    PedidoRepository pedidoRepository,
                                    ClienteRepository clienteRepository,

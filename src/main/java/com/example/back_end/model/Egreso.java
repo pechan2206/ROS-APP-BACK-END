@@ -1,6 +1,7 @@
 package com.example.back_end.model;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.Min;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -19,6 +20,7 @@ public class Egreso {
     @Column(name = "id_egreso")
     private Integer idEgreso;
 
+    @Min(0)
     @Column(nullable = false)
     private Double monto;
 
@@ -28,7 +30,12 @@ public class Egreso {
     @Column(nullable = false)
     private LocalDate fecha;
 
-    @ManyToOne
-    @JoinColumn(name = "id_metodo_pago", nullable = false)
+    @ManyToOne(optional = false)
+    @JoinColumn(name = "id_metodo_pago")
     private MetodoPago metodoPago;
+
+    @PrePersist
+    protected void onCreate() {
+        this.fecha = LocalDate.now();
+    }
 }

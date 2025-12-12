@@ -7,6 +7,7 @@ import com.example.back_end.repository.MetodoPagoRepository;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.core.annotation.Order;
 
 import java.time.LocalDate;
 
@@ -14,6 +15,7 @@ import java.time.LocalDate;
 public class EgresoSeeder {
 
     @Bean
+    @Order(15)
     CommandLineRunner seedEgresos(EgresoRepository egresoRepository,
                                   MetodoPagoRepository metodoPagoRepository) {
         return args -> {

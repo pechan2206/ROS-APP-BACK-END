@@ -3,6 +3,7 @@ package com.example.back_end.controller;
 import com.example.back_end.model.DetallePedido;
 import com.example.back_end.service.DetallePedidoService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -30,40 +31,53 @@ public class DetallePedidoController {
     // Obtener por ID
     @GetMapping("/{id}")
     public ResponseEntity<DetallePedido> findById(@PathVariable Integer id) {
-        Optional<DetallePedido> detalle = detallePedidoService.findById(id);
-        return detalle.map(ResponseEntity::ok)
+        return detallePedidoService.findById(id)
+                .map(ResponseEntity::ok)
                 .orElse(ResponseEntity.notFound().build());
     }
 
-    // Guardar
+
+
+
+    // Crear detalle
     @PostMapping
-    public DetallePedido save(@RequestBody DetallePedido detallePedido) {
-        return detallePedidoService.save(detallePedido);
+    public ResponseEntity<?> save(@RequestBody DetallePedido detallePedido) {
+        try {
+            DetallePedido saved = detallePedidoService.save(detallePedido);
+            return ResponseEntity.status(HttpStatus.CREATED).body(saved);
+        } catch (RuntimeException e) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+                    .body(e.getMessage());
+        }
     }
 
-    // Actualizar
+    // Actualizar detalle
     @PutMapping("/{id}")
-    public DetallePedido update(@PathVariable Integer id, @RequestBody DetallePedido detallePedido) {
-        return detallePedidoService.update(id, detallePedido);
+    public ResponseEntity<?> update(@PathVariable Integer id, @RequestBody DetallePedido detallePedido) {
+        try {
+            DetallePedido updated = detallePedidoService.update(id, detallePedido);
+            return ResponseEntity.ok(updated);
+        } catch (RuntimeException e) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+                    .body(e.getMessage());
+        }
     }
 
     // Eliminar
     @DeleteMapping("/{id}")
-    public void delete(@PathVariable Integer id) {
-        detallePedidoService.delete(id);
+    public ResponseEntity<?> delete(@PathVariable Integer id) {
+        try {
+            detallePedidoService.delete(id);
+            return ResponseEntity.ok("Detalle eliminado correctamente");
+        } catch (RuntimeException e) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+                    .body(e.getMessage());
+        }
     }
-
 
     // Obtener detalles por pedido
-
     @GetMapping("/pedido/{id}")
     public ResponseEntity<List<DetallePedido>> getDetallesPorPedido(@PathVariable Integer id) {
-        List<DetallePedido> detalles = detallePedidoService.obtenerDetallesPorPedidoId(id);
-        return ResponseEntity.ok(detalles);
+        return ResponseEntity.ok(detallePedidoService.obtenerDetallesPorPedidoId(id));
     }
-
-
-
-
-
 }

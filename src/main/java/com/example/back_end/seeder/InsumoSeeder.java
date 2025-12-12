@@ -7,11 +7,13 @@ import com.example.back_end.repository.InsumoRepository;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.core.annotation.Order;
 
 @Configuration
 public class InsumoSeeder {
 
     @Bean
+    @Order(5)
     CommandLineRunner seedInsumos(InsumoRepository insumoRepository,
                                   CategoriaInsumoRepository categoriaRepository) {
         return args -> {

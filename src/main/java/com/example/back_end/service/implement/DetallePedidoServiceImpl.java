@@ -51,6 +51,10 @@ public class DetallePedidoServiceImpl implements DetallePedidoService {
         detallePedido.setPedido(pedido);
         detallePedido.setPlato(plato);
 
+        System.out.println("RECIBIDO ===> " + detallePedido);
+        System.out.println("PEDIDO ===> " + detallePedido.getPedido());
+        System.out.println("PLATO ===> " + detallePedido.getPlato());
+
         return detallePedidoRepository.save(detallePedido);
     }
 

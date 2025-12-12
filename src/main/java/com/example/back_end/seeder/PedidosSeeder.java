@@ -13,6 +13,7 @@ import com.example.back_end.repository.ClienteRepository;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.core.annotation.Order;
 
 import java.time.LocalDateTime;
 
@@ -20,6 +21,7 @@ import java.time.LocalDateTime;
 public class PedidosSeeder {
 
     @Bean
+    @Order(10)
     CommandLineRunner seedPedidos(PedidoRepository pedidoRepository,
                                   MesaRepository mesaRepository,
                                   UsuarioRepository usuarioRepository,

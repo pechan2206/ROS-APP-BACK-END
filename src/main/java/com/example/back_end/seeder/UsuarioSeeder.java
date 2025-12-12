@@ -7,19 +7,27 @@ import com.example.back_end.repository.RolRepository;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.core.annotation.Order;
 import org.springframework.security.crypto.password.PasswordEncoder;
+
+import java.time.LocalDateTime;
+import java.util.List; // Importar List para usar saveAll
 
 @Configuration
 public class UsuarioSeeder {
 
     @Bean
+    @Order(2)
     CommandLineRunner seedUsuarios(UsuarioRepository usuarioRepository,
                                    RolRepository rolRepository,
                                    PasswordEncoder passwordEncoder) {
         return args -> {
+            // Solo siembra usuarios si no hay ninguno.
             if(usuarioRepository.count() == 0) {
+
+                // --- 1. ADMINISTRADOR ---
                 Rol adminRol = rolRepository.findByNombre("Administrador")
-                        .orElseThrow(() -> new RuntimeException("Rol Administrador no encontrado"));
+                        .orElseThrow(() -> new RuntimeException("Rol Administrador no encontrado. Asegúrate de que exista en la DB."));
 
                 Usuario admin = new Usuario(
                         null,
@@ -28,13 +36,18 @@ public class UsuarioSeeder {
                         "admin@restaurante.com",
                         "3001234567",
                         passwordEncoder.encode("12345"),
-                        Usuario.EstadoUsuario.Activo, // 🔹 Ahora usamos el enum
-                        null,                 // fechaRegistro se puede dejar en null, JPA lo llenará si configuras default
+                        Usuario.EstadoUsuario.Activo,
+                        null,
                         adminRol
                 );
 
+                admin.setFechaRegistro(LocalDateTime.now());
+
+                // --- 2. MESERO ---
+                // ✅ CORRECCIÓN: Usamos "Mesero" en lugar de "Mero" y la excepción correcta
                 Rol meseroRol = rolRepository.findByNombre("Mesero")
-                        .orElseThrow(() -> new RuntimeException("Rol Mesero no encontrado"));
+                        .orElseThrow(() -> new RuntimeException("Rol Mesero no encontrado. Asegúrate de que exista en la DB."));
+
                 Usuario mesero = new Usuario(
                         null,
                         "Andres",
@@ -42,18 +55,32 @@ public class UsuarioSeeder {
                         "mesero@restaurante.com",
                         "3001234567",
                         passwordEncoder.encode("123456"),
-                        Usuario.EstadoUsuario.Activo, // 🔹 Ahora usamos el enum
+                        Usuario.EstadoUsuario.Activo,
                         null,
                         meseroRol
-
                 );
+                mesero.setFechaRegistro(LocalDateTime.now());
+                // --- 3. COCINERO (Nuevo Rol) ---
+                Rol cocineroRol = rolRepository.findByNombre("Cocinero")
+                        // ✅ Mensaje de excepción específico
+                        .orElseThrow(() -> new RuntimeException("Rol Cocinero no encontrado. Asegúrate de que exista en la DB."));
 
-
-                usuarioRepository.save(mesero);
-                usuarioRepository.save(admin);
+                Usuario cocinero = new Usuario(
+                        null,
+                        "Miguel",
+                        "Rodriguez",
+                        "cocinero@restaurante.com",
+                        "3001234999",
+                        passwordEncoder.encode("12345"),
+                        Usuario.EstadoUsuario.Activo,
+                        null,
+                        cocineroRol // Asignamos el rol de Cocinero
+                );
+                cocinero.setFechaRegistro(LocalDateTime.now());
+                // --- Guardar todos los usuarios ---
+                // Utilizando saveAll es más eficiente.
+                usuarioRepository.saveAll(List.of(admin, mesero, cocinero));
             }
         };
     }
-
-
 }
