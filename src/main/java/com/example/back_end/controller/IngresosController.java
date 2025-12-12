@@ -10,6 +10,7 @@ import java.util.Optional;
 
 @RestController
 @RequestMapping("/api/ingresos")
+@CrossOrigin(origins = "*")
 public class IngresosController {
 
     private final IngresoService ingresoService;
