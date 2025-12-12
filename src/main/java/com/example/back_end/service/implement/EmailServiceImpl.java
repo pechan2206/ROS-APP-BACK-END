@@ -6,6 +6,8 @@ import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class EmailServiceImpl implements EmailService {
 
@@ -24,5 +26,12 @@ public class EmailServiceImpl implements EmailService {
         mailSender.send(email);
 
         System.out.println("📧 Correo enviado a " + destino);
+    }
+
+    @Override
+    public void enviarCorreo(List<String> destinos, String asunto, String mensaje) {
+        for (String destino : destinos) {
+            enviarCorreo(destino, asunto, mensaje);
+        }
     }
 }
