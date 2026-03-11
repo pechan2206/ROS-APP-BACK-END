@@ -1,15 +1,17 @@
 #!/bin/bash
-# Espera hasta que MySQL esté disponible antes de levantar Spring Boot
+# wait-for-db.sh
 
-APP_JAR=$1
+set -e
 
-echo "Esperando a que la base de datos esté disponible en $DB_HOST:$DB_PORT..."
+host="$DB_HOST"
+port="$DB_PORT"
 
-until nc -z -v -w30 $DB_HOST $DB_PORT
-do
-  echo "Base de datos no disponible aún, reintentando..."
-  sleep 5
+echo "Esperando a que MySQL en $host:$port esté listo..."
+
+until nc -z "$host" "$port"; do
+  echo "Esperando 2s..."
+  sleep 2
 done
 
-echo "Base de datos disponible, iniciando aplicación..."
-java -jar $APP_JAR
+echo "MySQL listo, iniciando aplicación..."
+exec java -jar /app/back-end-0.0.1-SNAPSHOT.jar
