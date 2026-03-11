@@ -34,7 +34,7 @@ public class UsuarioSeeder {
                         "Admin",
                         "Sistema",
                         "admin@restaurante.com",
-                        "3001234567",
+                        "3001234568",
                         passwordEncoder.encode("12345"),
                         Usuario.EstadoUsuario.Activo,
                         null,
