@@ -4,5 +4,6 @@ public enum EstadoPedido {
     Pendiente,
     En_preparacion,
     Entregado,
-    Cancelado
+    Anulado,
+    Pagado
 }

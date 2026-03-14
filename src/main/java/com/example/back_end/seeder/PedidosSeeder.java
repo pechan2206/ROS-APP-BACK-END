@@ -15,7 +15,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.annotation.Order;
 
-import java.time.LocalDateTime;
+
 
 @Configuration
 public class PedidosSeeder {
@@ -29,8 +29,7 @@ public class PedidosSeeder {
         return args -> {
             if (pedidoRepository.count() == 0) {
 
-                // Tomar referencias
-                Usuario mesero = usuarioRepository.findByCorreo("admin@restaurante.com").orElseThrow();
+
                 Cliente cliente1 = clienteRepository.findById(1).orElseThrow();
 
                 // Pedidos
@@ -73,7 +72,7 @@ public class PedidosSeeder {
                         null,
                         cliente1,
                         null,
-                        EstadoPedido.Cancelado,
+                        EstadoPedido.Anulado,
                         0.0,
                         TipoPedido.Llevar
                 ));
