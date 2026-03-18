@@ -33,7 +33,7 @@ public class Pedido {
     private LocalDateTime fecha = LocalDateTime.now(); // <--- FECHA AUTOMÁTICA
 
     @Enumerated(EnumType.STRING)
-    @Column(columnDefinition = "ENUM('Pendiente','En preparación','Entregado','Cancelado') DEFAULT 'Pendiente'")
+    @Column(columnDefinition = "ENUM('Pendiente','En preparación','Entregado','Anulado','Pagado') DEFAULT 'Pendiente'")
     private EstadoPedido estado;
 
     @Column
