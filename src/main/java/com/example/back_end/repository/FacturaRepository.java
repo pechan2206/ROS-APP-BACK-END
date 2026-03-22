@@ -12,34 +12,32 @@ import java.util.List;
 
 public interface FacturaRepository extends JpaRepository<Factura, Integer> {
 
-    @Query("""
-        SELECT new com.example.back_end.dto.VentasPorPeriodoDTO(
-            CAST(f.fecha AS date),
-            SUM(f.total),
-            COUNT(f)
-        )
-        FROM Factura f
-        WHERE f.fecha BETWEEN :inicio AND :fin
-        GROUP BY CAST(f.fecha AS date)
-        ORDER BY CAST(f.fecha AS date)
-    """)
+    @Query(value = """
+        SELECT 
+            DATE(fecha) AS fecha,
+            SUM(total) AS total,
+            COUNT(*) AS cantidadFacturas
+        FROM facturas
+        WHERE fecha BETWEEN :inicio AND :fin
+        GROUP BY DATE(fecha)
+        ORDER BY DATE(fecha)
+    """, nativeQuery = true)
     List<VentasPorPeriodoDTO> findVentasPorPeriodo(
         @Param("inicio") LocalDateTime inicio,
         @Param("fin") LocalDateTime fin
     );
 
-    @Query("""
-        SELECT new com.example.back_end.dto.VentasDiariasDTO(
-            FUNCTION('DAYNAME', f.fecha),
-            CAST(f.fecha AS date),
-            SUM(f.total),
-            COUNT(f)
-        )
-        FROM Factura f
-        WHERE FUNCTION('YEAR', f.fecha)  = FUNCTION('YEAR',  CURRENT_TIMESTAMP)
-          AND FUNCTION('MONTH', f.fecha) = FUNCTION('MONTH', CURRENT_TIMESTAMP)
-        GROUP BY FUNCTION('DAYNAME', f.fecha), CAST(f.fecha AS date)
-        ORDER BY CAST(f.fecha AS date)
-    """)
+    @Query(value = """
+        SELECT 
+            DAYNAME(fecha) AS dia,
+            DATE(fecha) AS fecha,
+            SUM(total) AS total,
+            COUNT(*) AS cantidadFacturas
+        FROM facturas
+        WHERE YEAR(fecha) = YEAR(NOW())
+          AND MONTH(fecha) = MONTH(NOW())
+        GROUP BY DAYNAME(fecha), DATE(fecha)
+        ORDER BY DATE(fecha)
+    """, nativeQuery = true)
     List<VentasDiariasDTO> findVentasDiariasDelMes();
 }
