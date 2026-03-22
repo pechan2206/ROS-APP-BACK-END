@@ -9,8 +9,9 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class VentasPorPeriodoDTO {
-    private LocalDate fecha;     // ✅ ya cambiado
+public class VentasDiariasDTO {
+    private String dia;          
+    private LocalDate fecha;    
     private Double total;
     private Long cantidadFacturas;
 }
