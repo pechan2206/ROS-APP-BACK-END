@@ -1,5 +1,7 @@
 package com.example.back_end.dto;
 
+import java.time.LocalDate;
+
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -8,7 +10,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class VentasPorPeriodoDTO {
-    private String fecha;       // "2025-03-01"
+    private LocalDate fecha;     // ← cambia String por LocalDate
     private Double total;
     private Long cantidadFacturas;
 }
