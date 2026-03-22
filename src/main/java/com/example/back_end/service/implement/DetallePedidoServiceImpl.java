@@ -121,7 +121,7 @@ public class DetallePedidoServiceImpl implements DetallePedidoService {
                 .reduce(BigDecimal.ZERO, BigDecimal::add);
 
         pedidoRepository.findById(idPedido).ifPresent(pedido -> {
-            pedido.setTotal(nuevoTotal);
+            pedido.setTotal(nuevoTotal.doubleValue());
             pedidoRepository.save(pedido);
         });
     }
