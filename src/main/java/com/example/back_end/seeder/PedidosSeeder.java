@@ -2,7 +2,6 @@ package com.example.back_end.seeder;
 
 import com.example.back_end.model.Mesa;
 import com.example.back_end.model.Pedido;
-import com.example.back_end.model.Usuario;
 import com.example.back_end.model.Cliente;
 import com.example.back_end.model.enums.EstadoPedido;
 import com.example.back_end.model.enums.TipoPedido;
@@ -14,8 +13,6 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.annotation.Order;
-
-
 
 @Configuration
 public class PedidosSeeder {
@@ -29,54 +26,31 @@ public class PedidosSeeder {
         return args -> {
             if (pedidoRepository.count() == 0) {
 
-
                 Cliente cliente1 = clienteRepository.findById(1).orElseThrow();
 
-                // Pedidos
                 Mesa mesa1 = mesaRepository.findById(1).orElseThrow();
                 Mesa mesa2 = mesaRepository.findById(2).orElseThrow();
 
-
+                // null al final = detallePedidos vacío (se agregan después)
                 pedidoRepository.save(new Pedido(
-                        null,           // id_pedido
-                        mesa1,          // mesa
-                        cliente1,       // cliente
-                        null,           // fecha -> la BD la pone
-                        EstadoPedido.Pendiente,
-                        0.0,            // total -> luego se recalcula por triggers
-                        TipoPedido.Mesa
+                        null, mesa1, cliente1, null,
+                        EstadoPedido.Pendiente, 0.0, TipoPedido.Mesa, null
                 ));
 
                 pedidoRepository.save(new Pedido(
-                        null,
-                        mesa2,
-                        cliente1,
-                        null,
-                        EstadoPedido.En_preparacion,
-                        0.0,
-                        TipoPedido.Mesa
+                        null, mesa2, cliente1, null,
+                        EstadoPedido.En_preparacion, 0.0, TipoPedido.Mesa, null
                 ));
 
                 pedidoRepository.save(new Pedido(
-                        null,
-                        null,           // no tiene mesa
-                        cliente1,
-                        null,
-                        EstadoPedido.Entregado,
-                        0.0,
-                        TipoPedido.Domicilio
+                        null, null, cliente1, null,
+                        EstadoPedido.Entregado, 0.0, TipoPedido.Domicilio, null
                 ));
 
                 pedidoRepository.save(new Pedido(
-                        null,
-                        null,
-                        cliente1,
-                        null,
-                        EstadoPedido.Anulado,
-                        0.0,
-                        TipoPedido.Llevar
+                        null, null, cliente1, null,
+                        EstadoPedido.Anulado, 0.0, TipoPedido.Llevar, null
                 ));
-
             }
         };
     }
