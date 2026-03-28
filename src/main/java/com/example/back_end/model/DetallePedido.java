@@ -1,5 +1,6 @@
 package com.example.back_end.model;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Min;
@@ -22,8 +23,11 @@ public class DetallePedido {
     @Column(name = "id_detalle")
     private Integer idDetallePedido;
 
+    // ── JsonBackReference evita el bucle infinito (Detalle → Pedido → Detalle → ...)
+    // El lado "back" no se serializa en el JSON — el pedido viene desde Pedido.java
     @ManyToOne(cascade = CascadeType.MERGE)
     @JoinColumn(name = "id_pedido", nullable = false)
+    @JsonBackReference
     private Pedido pedido;
 
     @ManyToOne(optional = false)
@@ -39,5 +43,4 @@ public class DetallePedido {
 
     @Column(nullable = true)
     private BigDecimal subtotal;
-
 }
