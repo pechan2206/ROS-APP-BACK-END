@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class MesaServiceImpl implements MesaService {
@@ -22,8 +23,7 @@ public class MesaServiceImpl implements MesaService {
 
     @Override
     public Mesa obtenerPorId(Integer id) {
-        return mesaRepository.findById(id)
-                .orElse(null);
+        return mesaRepository.findById(id).orElse(null);
     }
 
     @Override
@@ -63,8 +63,7 @@ public class MesaServiceImpl implements MesaService {
     }
 
     @Override
-    public Mesa obtenerPorNumero(Integer numero) {
-    return mesaRepository.findByNumero(numero)
-            .orElse(null);
-}
+    public Optional<Mesa> obtenerPorNumero(Integer numero) {
+        return mesaRepository.findByNumero(numero);
+    }
 }

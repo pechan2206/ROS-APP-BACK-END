@@ -13,5 +13,5 @@ public interface MesaRepository extends JpaRepository<Mesa, Integer> {
 
     List<Mesa> findByEstado(EstadoMesa estado);
 
-    Optional<Mesa> findByNumero(Integer numero); 
+    Optional<Mesa> findByNumero(Integer numero); // ✅ OK
 }

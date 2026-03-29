@@ -19,19 +19,16 @@ public class MesaController {
     @Autowired
     private MesaService mesaService;
 
-    // LISTAR
     @GetMapping
     public List<Mesa> listar() {
         return mesaService.listar();
     }
 
-    // OBTENER POR ID
     @GetMapping("/{id}")
     public Mesa obtener(@PathVariable Integer id) {
         return mesaService.obtenerPorId(id);
     }
 
-    // CREAR
     @PostMapping
     public ResponseEntity<?> crear(@RequestBody Mesa mesa) {
         try {
@@ -44,13 +41,11 @@ public class MesaController {
         }
     }
 
-    // EDITAR
     @PutMapping("/{id}")
     public Mesa editar(@PathVariable Integer id, @RequestBody Mesa mesa) {
         return mesaService.actualizar(id, mesa);
     }
 
-    // ACTUALIZAR ESTADO
     @PatchMapping("/{id}/estado")
     public Mesa actualizarEstado(
             @PathVariable Integer id,
@@ -60,34 +55,23 @@ public class MesaController {
         return mesaService.actualizarEstado(id, estado);
     }
 
-    // ELIMINAR
     @DeleteMapping("/{id}")
     public void eliminar(@PathVariable Integer id) {
         mesaService.eliminar(id);
     }
 
-    // ✅ OBTENER POR NUMERO (CORREGIDO)
+    // ✅ ESTE ES EL QUE TE FALLABA
     @GetMapping("/numero/{numero}")
     public ResponseEntity<Mesa> obtenerPorNumero(@PathVariable Integer numero) {
-        Mesa mesa = mesaService.obtenerPorNumero(numero);
-
-        if (mesa != null) {
-            return ResponseEntity.ok(mesa);
-        } else {
-            return ResponseEntity.notFound().build();
-        }
+        return mesaService.obtenerPorNumero(numero)
+                .map(ResponseEntity::ok)
+                .orElse(ResponseEntity.notFound().build());
     }
 
-    // Clase interna
     public static class EstadoRequest {
         private String estado;
 
-        public String getEstado() {
-            return estado;
-        }
-
-        public void setEstado(String estado) {
-            this.estado = estado;
-        }
+        public String getEstado() { return estado; }
+        public void setEstado(String estado) { this.estado = estado; }
     }
 }

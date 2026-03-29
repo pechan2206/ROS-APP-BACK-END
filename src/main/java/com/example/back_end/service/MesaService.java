@@ -6,7 +6,6 @@ import com.example.back_end.model.enums.EstadoMesa;
 import java.util.List;
 import java.util.Optional;
 
-
 public interface MesaService {
 
     List<Mesa> listar();
@@ -18,7 +17,6 @@ public interface MesaService {
     Mesa actualizarEstado(Integer id, EstadoMesa nuevoEstado);
     List<Mesa> listarPorEstado(EstadoMesa estado);
 
-    // ✅ NUEVO
-    Mesa obtenerPorNumero(Integer numero);
+    // ✅ CORRECTO
+    Optional<Mesa> obtenerPorNumero(Integer numero);
 }
-
