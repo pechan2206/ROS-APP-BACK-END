@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 @RestController
@@ -33,12 +34,18 @@ public class PedidoController {
         return ResponseEntity.ok(pedido);
     }
 
-    // 🔹 Crear un nuevo pedido
-    @PostMapping
-    public ResponseEntity<Pedido> guardar(@RequestBody Pedido pedido) {
-        Pedido nuevoPedido = pedidoService.guardar(pedido);
-        return ResponseEntity.ok(nuevoPedido);
-    }
+        // ── Crear un nuevo pedido
+        @PostMapping
+        public ResponseEntity<?> guardar(@RequestBody Pedido pedido) {
+            try {
+                Pedido nuevo = pedidoService.guardar(pedido);
+                return ResponseEntity.ok(nuevo);
+            } catch (IllegalArgumentException e) {
+                return ResponseEntity
+                    .badRequest()
+                    .body(Map.of("mensaje", e.getMessage()));
+            }
+        }
 
     // 🔹 Actualizar un pedido
     @PutMapping("/{id}")

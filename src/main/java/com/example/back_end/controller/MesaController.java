@@ -4,7 +4,11 @@ import com.example.back_end.model.Mesa;
 import com.example.back_end.model.enums.EstadoMesa;
 import com.example.back_end.service.MesaService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.Map;
 
 import java.util.List;
 
@@ -28,12 +32,18 @@ public class MesaController {
         return mesaService.obtenerPorId(id);
     }
 
-    // CREAR
+// CREAR
     @PostMapping
-    public Mesa crear(@RequestBody Mesa mesa) {
-        return mesaService.guardar(mesa);
+    public ResponseEntity<?> crear(@RequestBody Mesa mesa) {
+    try {
+        Mesa nueva = mesaService.guardar(mesa);
+        return ResponseEntity.ok(nueva);
+    } catch (DataIntegrityViolationException e) {
+        return ResponseEntity
+            .badRequest()
+            .body(Map.of("mensaje", "Ya existe una mesa con el número " + mesa.getNumero()));
     }
-
+    }
     // EDITAR
     @PutMapping("/{id}")
     public Mesa editar(@PathVariable Integer id, @RequestBody Mesa mesa) {
