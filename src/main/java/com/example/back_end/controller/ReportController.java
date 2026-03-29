@@ -1,5 +1,6 @@
 package com.example.back_end.controller;
 
+import com.example.back_end.dto.ProductosMasVendidosDTO;
 import com.example.back_end.dto.VentasDiariasDTO;
 import com.example.back_end.dto.VentasPorPeriodoDTO;
 import com.example.back_end.repository.PedidoRepository;
@@ -49,4 +50,11 @@ public class ReportController {
     public List<Map<String, Object>> getPedidosPorTipo() {
         return pedidoRepository.contarPorTipo();
     }
+
+    // =========   REPORTES DE PRODUCTOS MAS VENDIDOS ===============
+    
+    @GetMapping("/productos-mas-vendidos")
+    public ResponseEntity<List<ProductosMasVendidosDTO>> productosMasVendidos() {
+        return ResponseEntity.ok(reporteService.getProductosMasVendidos());
+}
 }
