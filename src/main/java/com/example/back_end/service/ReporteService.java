@@ -2,8 +2,7 @@ package com.example.back_end.service;
 
 import com.example.back_end.dto.VentasPorPeriodoDTO;
 import com.example.back_end.dto.VentasDiariasDTO;
-import com.example.back_end.repository.FacturaRepository;
-import com.example.back_end.repository.IngresoRepository; // ← agregar
+import com.example.back_end.repository.IngresoRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -14,15 +13,14 @@ import java.util.List;
 @RequiredArgsConstructor
 public class ReporteService {
 
-    private final FacturaRepository facturaRepository;
-    private final IngresoRepository ingresoRepository; // ← agregar
+    private final IngresoRepository ingresoRepository; 
 
     public List<VentasPorPeriodoDTO> getVentasPorPeriodo(LocalDate inicio, LocalDate fin) {
-        // Ahora usa ingresos en lugar de facturas
         return ingresoRepository.findVentasPorPeriodo(inicio, fin);
     }
 
-    public List<VentasDiariasDTO> getVentasDiariasDelMes() {
-        return facturaRepository.findVentasDiariasDelMes();
-    }
+public List<VentasDiariasDTO> getVentasDiariasDelMes() {
+    return ingresoRepository.findVentasDiariasDelMes(); 
+}
+    
 }

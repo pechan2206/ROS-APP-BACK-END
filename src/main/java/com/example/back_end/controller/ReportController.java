@@ -1,26 +1,34 @@
 package com.example.back_end.controller;
 
-import org.springframework.web.bind.annotation.*;
-
 import com.example.back_end.dto.VentasDiariasDTO;
 import com.example.back_end.dto.VentasPorPeriodoDTO;
+import com.example.back_end.repository.PedidoRepository;
 import com.example.back_end.service.ReporteService;
 
-import org.springframework.http.ResponseEntity;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Map;
 
 @RestController
-@RequestMapping("/reportes")
-public class ReporteController {
+@RequestMapping("/api/report")
+@CrossOrigin(origins = "*")
+public class ReportController {
 
     private final ReporteService reporteService;
 
-    public ReporteController(ReporteService reporteService) {
+    @Autowired
+    private PedidoRepository pedidoRepository;
+
+    public ReportController(ReporteService reporteService) {
         this.reporteService = reporteService;
     }
+
+    // ===================== REPORTES DE VENTAS =====================
 
     @GetMapping("/ventas-por-periodo")
     public ResponseEntity<List<VentasPorPeriodoDTO>> ventasPorPeriodo(
@@ -33,5 +41,12 @@ public class ReporteController {
     @GetMapping("/ventas-diarias")
     public ResponseEntity<List<VentasDiariasDTO>> ventasDiarias() {
         return ResponseEntity.ok(reporteService.getVentasDiariasDelMes());
+    }
+
+    // ===================== REPORTES DE PEDIDOS =====================
+
+    @GetMapping("/reporte-por-pedido")
+    public List<Map<String, Object>> getPedidosPorTipo() {
+        return pedidoRepository.contarPorTipo();
     }
 }
