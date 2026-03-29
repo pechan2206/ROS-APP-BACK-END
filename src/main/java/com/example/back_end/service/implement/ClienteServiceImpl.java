@@ -32,7 +32,13 @@ public class ClienteServiceImpl implements ClienteService {
 
     @Override
     public void eliminar(Integer id) {
-        clienteRepository.deleteById(id);
+
+        Cliente cliente = clienteRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Cliente no encontrado"));
+
+        cliente.setEstado(false); // 🔥 eliminado lógico
+
+        clienteRepository.save(cliente);
     }
 
     @Override

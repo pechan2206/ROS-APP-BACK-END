@@ -39,6 +39,9 @@ public class Plato {
     @Column(length = 255)
     private String imagen;
 
+    @Column(name = "estado")
+    private Boolean estado = true;
+
     @NotNull(message = "La categoría del plato es obligatoria")
     @ManyToOne
     @JoinColumn(name = "id_categoria", nullable = false)

@@ -45,6 +45,9 @@ public class Cliente {
     @Size(max = 100, message = "La descripcion no puede ser mas de 100 caracteres")
     private String descripcion;
 
+    @Column(name = "estado")
+    private Boolean estado = true;    
+
     @Column(name = "fecha_registro", nullable = false)
     private LocalDateTime fechaRegistro = LocalDateTime.now();
 }

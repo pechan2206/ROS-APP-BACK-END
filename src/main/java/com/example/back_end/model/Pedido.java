@@ -45,9 +45,6 @@ public class Pedido {
     @Column
     private TipoPedido tipo;
 
-    // ── Relación con DetallePedido ──────────────────────────────────────────
-    // FetchType.EAGER = los detalles se cargan siempre junto con el pedido
-    // JsonManagedReference = evita el bucle infinito JSON (Pedido → Detalle → Pedido → ...)
     @OneToMany(mappedBy = "pedido", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @JsonManagedReference
     private List<DetallePedido> detallePedidos;

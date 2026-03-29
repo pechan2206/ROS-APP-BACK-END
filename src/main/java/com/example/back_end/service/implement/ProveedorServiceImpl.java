@@ -16,30 +16,34 @@ public class ProveedorServiceImpl implements ProveedorService {
     private ProveedorRepository proveedorRepository;
 
     @Override
-    public List<Proveedor> listar(){
+    public List<Proveedor> listar() {
         return proveedorRepository.findAll();
     }
 
     @Override
-    public Proveedor obtenerPorId(Integer id){
+    public Proveedor obtenerPorId(Integer id) {
         return proveedorRepository.findById(id).orElse(null);
     }
 
-
     @Override
-    public Proveedor guardar(Proveedor proveedor){
+    public Proveedor guardar(Proveedor proveedor) {
         return proveedorRepository.save(proveedor);
     }
 
     @Override
-    public void eliminar(Integer id){
-        proveedorRepository.deleteById(id);
+    public void eliminar(Integer id) {
+
+        Proveedor proveedor = proveedorRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Proveedor no encontrado"));
+
+        proveedor.setEstado(false); 
+
+        proveedorRepository.save(proveedor);
     }
 
-
-    //Modificar funcionalidad
+    // Modificar funcionalidad
     @Override
-    public Proveedor actualizar(Integer id, Proveedor proveedor){
+    public Proveedor actualizar(Integer id, Proveedor proveedor) {
         return proveedorRepository.save(proveedor);
     }
 }

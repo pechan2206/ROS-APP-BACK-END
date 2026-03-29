@@ -35,8 +35,8 @@ public class PlatoServiceImpl implements PlatoService {
     public Plato save(Plato plato) {
 
         CategoriaPlato categoria = categoriaPlatoRepository.findById(
-                plato.getCategoriaPlato().getIdCategoria()
-        ).orElseThrow(() -> new RuntimeException("Categoría de plato no encontrada"));
+                plato.getCategoriaPlato().getIdCategoria())
+                .orElseThrow(() -> new RuntimeException("Categoría de plato no encontrada"));
 
         plato.setCategoriaPlato(categoria);
 
@@ -55,8 +55,8 @@ public class PlatoServiceImpl implements PlatoService {
                     existing.setImagen(plato.getImagen());
 
                     CategoriaPlato categoria = categoriaPlatoRepository.findById(
-                            plato.getCategoriaPlato().getIdCategoria()
-                    ).orElseThrow(() -> new RuntimeException("Categoría de plato no encontrada"));
+                            plato.getCategoriaPlato().getIdCategoria())
+                            .orElseThrow(() -> new RuntimeException("Categoría de plato no encontrada"));
 
                     existing.setCategoriaPlato(categoria);
 
@@ -67,6 +67,12 @@ public class PlatoServiceImpl implements PlatoService {
 
     @Override
     public void delete(Integer id) {
-        platoRepository.deleteById(id);
+
+        Plato plato = platoRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Plato no encontrado"));
+
+        plato.setEstado(false);
+
+        platoRepository.save(plato);
     }
 }
