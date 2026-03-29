@@ -61,4 +61,10 @@ public class MesaServiceImpl implements MesaService {
     public List<Mesa> listarPorEstado(EstadoMesa estado) {
         return mesaRepository.findByEstado(estado);
     }
+
+    @Override
+    public Mesa obtenerPorNumero(Integer numero) {
+    return mesaRepository.findByNumero(numero)
+            .orElse(null);
+}
 }

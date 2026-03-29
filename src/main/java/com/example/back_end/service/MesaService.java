@@ -18,5 +18,7 @@ public interface MesaService {
     Mesa actualizarEstado(Integer id, EstadoMesa nuevoEstado);
     List<Mesa> listarPorEstado(EstadoMesa estado);
 
-    
+    // ✅ NUEVO
+    Mesa obtenerPorNumero(Integer numero);
 }
+

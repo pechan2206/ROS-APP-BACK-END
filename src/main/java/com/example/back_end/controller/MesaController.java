@@ -9,7 +9,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Map;
-
 import java.util.List;
 
 @RestController
@@ -32,18 +31,19 @@ public class MesaController {
         return mesaService.obtenerPorId(id);
     }
 
-// CREAR
+    // CREAR
     @PostMapping
     public ResponseEntity<?> crear(@RequestBody Mesa mesa) {
-    try {
-        Mesa nueva = mesaService.guardar(mesa);
-        return ResponseEntity.ok(nueva);
-    } catch (DataIntegrityViolationException e) {
-        return ResponseEntity
-            .badRequest()
-            .body(Map.of("mensaje", "Ya existe una mesa con el número " + mesa.getNumero()));
+        try {
+            Mesa nueva = mesaService.guardar(mesa);
+            return ResponseEntity.ok(nueva);
+        } catch (DataIntegrityViolationException e) {
+            return ResponseEntity
+                .badRequest()
+                .body(Map.of("mensaje", "Ya existe una mesa con el número " + mesa.getNumero()));
+        }
     }
-    }
+
     // EDITAR
     @PutMapping("/{id}")
     public Mesa editar(@PathVariable Integer id, @RequestBody Mesa mesa) {
@@ -56,7 +56,6 @@ public class MesaController {
             @PathVariable Integer id,
             @RequestBody EstadoRequest request
     ) {
-        // Convertimos el string a ENUM correctamente
         EstadoMesa estado = EstadoMesa.valueOf(request.getEstado().toUpperCase());
         return mesaService.actualizarEstado(id, estado);
     }
@@ -67,7 +66,19 @@ public class MesaController {
         mesaService.eliminar(id);
     }
 
-    // Clase interna para recibir el JSON { "estado": "OCUPADA" }
+    // ✅ OBTENER POR NUMERO (CORREGIDO)
+    @GetMapping("/numero/{numero}")
+    public ResponseEntity<Mesa> obtenerPorNumero(@PathVariable Integer numero) {
+        Mesa mesa = mesaService.obtenerPorNumero(numero);
+
+        if (mesa != null) {
+            return ResponseEntity.ok(mesa);
+        } else {
+            return ResponseEntity.notFound().build();
+        }
+    }
+
+    // Clase interna
     public static class EstadoRequest {
         private String estado;
 
