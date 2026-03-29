@@ -24,6 +24,7 @@ public class ClienteSeeder {
                         "juan.perez@gmail.com",
                         "Calle 123 #45-67",
                         "Torre 14 apto 604",
+                        true,
                         LocalDate.now().minusDays(10).atStartOfDay()
                 ));
 
@@ -34,6 +35,7 @@ public class ClienteSeeder {
                         "maria.gomez@gmail.com",
                         "Carrera 78 #12-34",
                         "Casa 11 interior 11",
+                        true,
                         LocalDate.now().minusDays(8).atStartOfDay()
                 ));
 
@@ -44,6 +46,7 @@ public class ClienteSeeder {
                         "carlos.ramirez@gmail.com",
                         "Avenida Siempre Viva 742",
                         "C2T11 torre 15 apto 13",
+                        true,
                         LocalDate.now().minusDays(5).atStartOfDay()
                 ));
             }

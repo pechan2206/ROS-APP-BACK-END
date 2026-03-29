@@ -20,6 +20,7 @@ public class ProveedorSeeder {
                         "Proveedor de Verduras",
                         "3001112233",
                         "verduras@proveedor.com",
+                        true,
                         "Calle 10 #20-30"
                 ));
 
@@ -28,6 +29,7 @@ public class ProveedorSeeder {
                         "Proveedor de Carnes",
                         "3002223344",
                         "carnes@proveedor.com",
+                        true,
                         "Carrera 5 #15-10"
                 ));
 
@@ -36,6 +38,7 @@ public class ProveedorSeeder {
                         "Proveedor de Lácteos",
                         "3003334455",
                         "lacteos@proveedor.com",
+                        true,
                         "Avenida Central #50-40"
                 ));
             }

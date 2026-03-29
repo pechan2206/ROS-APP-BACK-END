@@ -33,6 +33,7 @@ public class PlatoSeeder {
                         BigDecimal.valueOf(12500),
                         "Ensalada con pollo, lechuga, croutons y aderezo César",
                         null,
+                        true,
                         entradas
                 ));
 
@@ -42,6 +43,7 @@ public class PlatoSeeder {
                         BigDecimal.valueOf(25000),
                         "Pollo marinado a la parrilla acompañado de verduras",
                         null,
+                        true,
                         principales
                 ));
 
@@ -51,6 +53,7 @@ public class PlatoSeeder {
                         BigDecimal.valueOf(8000),
                         "Delicioso pastel de chocolate con crema",
                         null,
+                        true,
                         postres
                 ));
             }
