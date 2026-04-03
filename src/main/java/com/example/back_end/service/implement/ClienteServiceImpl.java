@@ -39,7 +39,7 @@ public class ClienteServiceImpl implements ClienteService {
     public void eliminar(Integer id) {
         Cliente cliente = clienteRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Cliente no encontrado"));
-        cliente.setEstado(false); // eliminado lógico
+        cliente.setEstado(false);
         clienteRepository.save(cliente);
     }
 
@@ -60,6 +60,10 @@ public class ClienteServiceImpl implements ClienteService {
                     cliente.setTelefono(clienteActualizado.getTelefono());
                     cliente.setDireccion(clienteActualizado.getDireccion());
                     cliente.setDescripcion(clienteActualizado.getDescripcion());
+                    // ← actualiza estado si viene en el payload
+                    if (clienteActualizado.getEstado() != null) {
+                        cliente.setEstado(clienteActualizado.getEstado());
+                    }
                     return clienteRepository.save(cliente);
                 })
                 .orElseThrow(() -> new RuntimeException("Cliente no encontrado con ID: " + id));
