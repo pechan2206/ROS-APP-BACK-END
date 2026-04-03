@@ -55,9 +55,10 @@ public class ReportController {
         return ResponseEntity.ok(reporteService.getProductosMasVendidos());
     }
 
-    // 👇 NUEVO
-    @GetMapping("/ingresos-por-metodo-pago")
-    public List<Map<String, Object>> ingresosPorMetodoPago() {
-        return ingresoRepository.ingresosPorMetodoPago();
-    }
+@GetMapping("/ingresos-por-metodo-pago")
+public List<Map<String, Object>> ingresosPorMetodoPago(
+        @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate inicio,
+        @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate fin) {
+    return ingresoRepository.ingresosPorMetodoPago(inicio, fin);
+}
 }

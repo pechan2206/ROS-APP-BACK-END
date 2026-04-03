@@ -44,15 +44,20 @@ public interface IngresoRepository extends JpaRepository<Ingreso, Integer> {
         @Param("inicio") LocalDate inicio,
         @Param("fin")    LocalDate fin
     );
-    @Query("""
+@Query("""
     SELECT
         mp.nombre                AS metodoPago,
         SUM(i.monto)             AS total,
         COUNT(i.idIngreso)       AS cantidad
     FROM Ingreso i
     JOIN i.metodoPago mp
+    WHERE (:inicio IS NULL OR i.fecha >= :inicio)
+      AND (:fin    IS NULL OR i.fecha <= :fin)
     GROUP BY mp.nombre
-    ORDER BY total DESC
+    ORDER BY SUM(i.monto) DESC
 """)
-List<Map<String, Object>> ingresosPorMetodoPago();
+List<Map<String, Object>> ingresosPorMetodoPago(
+    @Param("inicio") LocalDate inicio,
+    @Param("fin")    LocalDate fin
+);
 }
