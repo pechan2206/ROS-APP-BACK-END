@@ -23,11 +23,24 @@ public class ClienteController {
     }
 
     // Activos + inactivos — para la vista de administración
-    @GetMapping("/todos")
+    // IMPORTANTE: rutas estáticas siempre antes de /{id}
+    @GetMapping("/listar-todos")
     public List<Cliente> listarTodos() {
         return clienteService.listarTodos();
     }
 
+    @GetMapping("/buscar-nombre")
+    public List<Cliente> buscarPorNombre(@RequestParam String nombre) {
+        return clienteService.buscarPorNombre(nombre);
+    }
+
+    @GetMapping("/buscar-telefono")
+    public ResponseEntity<List<Cliente>> buscarPorTelefono(@RequestParam String telefono) {
+        List<Cliente> clientes = clienteService.buscarPorTelefono(telefono);
+        return ResponseEntity.ok(clientes);
+    }
+
+    // Rutas dinámicas /{id} al final para evitar colisiones
     @GetMapping("/{id}")
     public ResponseEntity<Cliente> obtenerPorId(@PathVariable Integer id) {
         return clienteService.obtenerPorId(id)
@@ -51,14 +64,9 @@ public class ClienteController {
         return ResponseEntity.noContent().build();
     }
 
-    @GetMapping("/buscar-nombre")
-    public List<Cliente> buscarPorNombre(@RequestParam String nombre) {
-        return clienteService.buscarPorNombre(nombre);
-    }
-
-    @GetMapping("/buscar-telefono")
-    public ResponseEntity<List<Cliente>> buscarPorTelefono(@RequestParam String telefono) {
-        List<Cliente> clientes = clienteService.buscarPorTelefono(telefono);
-        return ResponseEntity.ok(clientes);
+    @PatchMapping("/{id}/activar")
+    public ResponseEntity<Void> activar(@PathVariable Integer id) {
+        clienteService.activar(id);
+        return ResponseEntity.noContent().build();
     }
 }

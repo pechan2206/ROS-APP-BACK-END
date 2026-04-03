@@ -17,12 +17,12 @@ public class ClienteServiceImpl implements ClienteService {
 
     @Override
     public List<Cliente> listar() {
-        return clienteRepository.findByEstadoTrue(); // solo activos (para otros módulos)
+        return clienteRepository.findByEstadoTrue(); // solo activos
     }
 
     @Override
     public List<Cliente> listarTodos() {
-        return clienteRepository.findAll(); // activos + inactivos (para la vista admin)
+        return clienteRepository.findAll(); // activos + inactivos
     }
 
     @Override
@@ -39,8 +39,15 @@ public class ClienteServiceImpl implements ClienteService {
     public void eliminar(Integer id) {
         Cliente cliente = clienteRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Cliente no encontrado"));
-
         cliente.setEstado(false); // eliminado lógico
+        clienteRepository.save(cliente);
+    }
+
+    @Override
+    public void activar(Integer id) {
+        Cliente cliente = clienteRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Cliente no encontrado"));
+        cliente.setEstado(true);
         clienteRepository.save(cliente);
     }
 

@@ -12,6 +12,7 @@ public interface ClienteService {
     Optional<Cliente> obtenerPorId(Integer id);
     Cliente guardar(Cliente cliente);
     void eliminar(Integer id);
+    void activar(Integer id);
     Cliente actualizar(Integer id, Cliente cliente);
 
     List<Cliente> buscarPorNombre(String nombre);
