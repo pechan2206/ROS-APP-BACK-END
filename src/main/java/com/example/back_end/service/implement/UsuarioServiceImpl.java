@@ -15,8 +15,10 @@ public class UsuarioServiceImpl implements UsuarioService {
 
     @Autowired
     private UsuarioRepository usuarioRepository;
-    private PasswordEncoder passwordEncoder; 
-    
+
+    @Autowired
+    private PasswordEncoder passwordEncoder;  // ← @Autowired agregado
+
     @Override
     public List<Usuario> listar() {
         return usuarioRepository.findAll();
@@ -37,28 +39,27 @@ public class UsuarioServiceImpl implements UsuarioService {
         usuarioRepository.deleteById(id);
     }
 
-@Override
-public Usuario actualizar(Integer id, Usuario usuario) {
+    @Override
+    public Usuario actualizar(Integer id, Usuario usuario) {
 
-    Usuario existente = usuarioRepository.findById(id)
-            .orElseThrow(() -> new RuntimeException("Usuario no encontrado"));
+        Usuario existente = usuarioRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Usuario no encontrado"));
 
-    if (usuarioRepository.existsByCorreoAndIdUsuarioNot(usuario.getCorreo(), id)) {
-        throw new RuntimeException("El correo ya está en uso por otro usuario");
+        if (usuarioRepository.existsByCorreoAndIdUsuarioNot(usuario.getCorreo(), id)) {
+            throw new RuntimeException("El correo ya está en uso por otro usuario");
+        }
+
+        existente.setNombre(usuario.getNombre());
+        existente.setApellido(usuario.getApellido());
+        existente.setCorreo(usuario.getCorreo());
+        existente.setTelefono(usuario.getTelefono());
+        existente.setRol(usuario.getRol());
+        existente.setEstado(usuario.getEstado());
+
+        if (usuario.getContrasena() != null && !usuario.getContrasena().isBlank()) {
+            existente.setContrasena(passwordEncoder.encode(usuario.getContrasena()));
+        }
+
+        return usuarioRepository.save(existente);
     }
-
-    existente.setNombre(usuario.getNombre());
-    existente.setApellido(usuario.getApellido());
-    existente.setCorreo(usuario.getCorreo());
-    existente.setTelefono(usuario.getTelefono());
-    existente.setRol(usuario.getRol());
-    existente.setEstado(usuario.getEstado());
-
-    // ← solo actualizar contraseña si viene con valor
-    if (usuario.getContrasena() != null && !usuario.getContrasena().isBlank()) {
-        existente.setContrasena(passwordEncoder.encode(usuario.getContrasena()));
-    }
-
-    return usuarioRepository.save(existente);
-}
 }
