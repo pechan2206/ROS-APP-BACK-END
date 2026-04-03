@@ -3,6 +3,8 @@ package com.example.back_end.controller;
 import com.example.back_end.model.Ingreso;
 import com.example.back_end.service.IngresoService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -29,9 +31,17 @@ public class IngresosController {
         return ingresoService.findById(id);
     }
 
+    // 👇 CAMBIADO: ahora retorna ResponseEntity para poder devolver 409 en caso de duplicado
     @PostMapping
-    public Ingreso save(@RequestBody Ingreso ingreso) {
-        return ingresoService.save(ingreso);
+    public ResponseEntity<?> save(@RequestBody Ingreso ingreso) {
+        try {
+            Ingreso nuevo = ingresoService.save(ingreso);
+            return ResponseEntity.status(HttpStatus.CREATED).body(nuevo);
+        } catch (RuntimeException e) {
+            return ResponseEntity
+                .status(HttpStatus.CONFLICT)
+                .body("{\"error\": \"" + e.getMessage() + "\"}");
+        }
     }
 
     @PutMapping("/{id}")

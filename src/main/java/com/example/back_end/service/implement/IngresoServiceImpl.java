@@ -2,8 +2,11 @@ package com.example.back_end.service.implement;
 
 import com.example.back_end.model.Ingreso;
 import com.example.back_end.model.MetodoPago;
+import com.example.back_end.model.Pedido;
+import com.example.back_end.model.enums.EstadoPedido;
 import com.example.back_end.repository.IngresoRepository;
 import com.example.back_end.repository.MetodoPagoRepository;
+import com.example.back_end.repository.PedidoRepository;
 import com.example.back_end.service.IngresoService;
 import org.springframework.stereotype.Service;
 
@@ -15,10 +18,15 @@ public class IngresoServiceImpl implements IngresoService {
 
     private final IngresoRepository ingresoRepository;
     private final MetodoPagoRepository metodoPagoRepository;
+    private final PedidoRepository pedidoRepository; // 👈 NUEVO
 
-    public IngresoServiceImpl(IngresoRepository ingresoRepository, MetodoPagoRepository metodoPagoRepository) {
+    public IngresoServiceImpl(
+            IngresoRepository ingresoRepository,
+            MetodoPagoRepository metodoPagoRepository,
+            PedidoRepository pedidoRepository) {
         this.ingresoRepository = ingresoRepository;
         this.metodoPagoRepository = metodoPagoRepository;
+        this.pedidoRepository = pedidoRepository;
     }
 
     @Override
@@ -34,8 +42,25 @@ public class IngresoServiceImpl implements IngresoService {
     @Override
     public Ingreso save(Ingreso ingreso) {
 
+        // 👇 NUEVO: validar que el pedido no haya sido cobrado ya
+        if (ingreso.getPedido() != null && ingreso.getPedido().getIdPedido() != null) {
+            boolean yaCobrado = ingresoRepository.existsByPedidoIdPedido(
+                ingreso.getPedido().getIdPedido()
+            );
+            if (yaCobrado) {
+                throw new RuntimeException("Este pedido ya fue cobrado");
+            }
+
+            // Cambiar estado del pedido a "Pagado"
+            Pedido pedido = pedidoRepository.findById(ingreso.getPedido().getIdPedido())
+                .orElseThrow(() -> new RuntimeException("Pedido no encontrado"));
+            pedido.setEstado(EstadoPedido.Pagado);
+            pedidoRepository.save(pedido);
+            ingreso.setPedido(pedido);
+        }
+
         MetodoPago metodoPago = metodoPagoRepository.findById(
-                ingreso.getMetodoPago().getIdMetodo()
+            ingreso.getMetodoPago().getIdMetodo()
         ).orElseThrow(() -> new RuntimeException("Método de pago no encontrado"));
 
         ingreso.setMetodoPago(metodoPago);
@@ -45,23 +70,20 @@ public class IngresoServiceImpl implements IngresoService {
 
     @Override
     public Ingreso update(Integer id, Ingreso ingreso) {
-
         return ingresoRepository.findById(id)
-                .map(existing -> {
+            .map(existing -> {
+                existing.setMonto(ingreso.getMonto());
+                existing.setDescripcion(ingreso.getDescripcion());
+                existing.setFecha(ingreso.getFecha());
 
-                    existing.setMonto(ingreso.getMonto());
-                    existing.setDescripcion(ingreso.getDescripcion());
-                    existing.setFecha(ingreso.getFecha());
+                MetodoPago metodoPago = metodoPagoRepository.findById(
+                    ingreso.getMetodoPago().getIdMetodo()
+                ).orElseThrow(() -> new RuntimeException("Método de pago no encontrado"));
 
-                    MetodoPago metodoPago = metodoPagoRepository.findById(
-                            ingreso.getMetodoPago().getIdMetodo()
-                    ).orElseThrow(() -> new RuntimeException("Método de pago no encontrado"));
-
-                    existing.setMetodoPago(metodoPago);
-
-                    return ingresoRepository.save(existing);
-                })
-                .orElseThrow(() -> new RuntimeException("Ingreso no encontrado"));
+                existing.setMetodoPago(metodoPago);
+                return ingresoRepository.save(existing);
+            })
+            .orElseThrow(() -> new RuntimeException("Ingreso no encontrado"));
     }
 
     @Override

@@ -27,28 +27,32 @@ public class IngresoSeeder {
 
                 // Crear ingresos
                 ingresoRepository.save(new Ingreso(
-                        null,
-                        150.50,
-                        "Venta de comida día 1",
-                        LocalDate.now().minusDays(3),
-                        efectivo
-                ));
+        null,
+        150.50,
+        "Venta de comida día 1",
+        LocalDate.now().minusDays(3),
+        efectivo,
+        null  // 👈 pedido null para ingresos manuales del seeder
+));
 
-                ingresoRepository.save(new Ingreso(
-                        null,
-                        200.75,
-                        "Venta de comida día 2",
-                        LocalDate.now().minusDays(2),
-                        tarjeta
-                ));
+ingresoRepository.save(new Ingreso(
+        null,
+        200.75,
+        "Venta de comida día 2",
+        LocalDate.now().minusDays(2),
+        tarjeta,
+        null
+));
 
-                ingresoRepository.save(new Ingreso(
-                        null,
-                        80.25,
-                        "Venta de bebidas",
-                        LocalDate.now().minusDays(1),
-                        efectivo
-                ));
+ingresoRepository.save(new Ingreso(
+        null,
+        80.25,
+        "Venta de bebidas",
+        LocalDate.now().minusDays(1),
+        efectivo,
+        null
+));
+
             }
         };
     }

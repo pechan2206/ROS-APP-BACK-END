@@ -12,6 +12,9 @@ import java.util.List;
 
 public interface IngresoRepository extends JpaRepository<Ingreso, Integer> {
 
+    // 👇 NUEVO: verifica si ya existe un ingreso para ese pedido
+    boolean existsByPedidoIdPedido(Integer idPedido);
+
     @Query("""
         SELECT
             i.fecha                                          AS fecha,

@@ -37,4 +37,11 @@ public class Ingreso {
     @JsonIgnoreProperties("ingresos")
     @ToString.Exclude
     private MetodoPago metodoPago;
+
+    // 👇 NUEVO: relación con el pedido (unique evita doble cobro a nivel BD)
+    @OneToOne(optional = true)
+    @JoinColumn(name = "id_pedido", nullable = true, unique = true)
+    @JsonIgnoreProperties("ingreso")
+    @ToString.Exclude
+    private Pedido pedido;
 }
