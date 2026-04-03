@@ -3,6 +3,7 @@ package com.example.back_end.controller;
 import com.example.back_end.dto.ProductosMasVendidosDTO;
 import com.example.back_end.dto.VentasDiariasDTO;
 import com.example.back_end.dto.VentasPorPeriodoDTO;
+import com.example.back_end.repository.IngresoRepository;  // 👈 NUEVO
 import com.example.back_end.repository.PedidoRepository;
 import com.example.back_end.service.ReporteService;
 
@@ -25,17 +26,17 @@ public class ReportController {
     @Autowired
     private PedidoRepository pedidoRepository;
 
+    @Autowired
+    private IngresoRepository ingresoRepository;  // 👈 NUEVO
+
     public ReportController(ReporteService reporteService) {
         this.reporteService = reporteService;
     }
-
-    // ===================== REPORTES DE VENTAS =====================
 
     @GetMapping("/ventas-por-periodo")
     public ResponseEntity<List<VentasPorPeriodoDTO>> ventasPorPeriodo(
             @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate inicio,
             @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate fin) {
-
         return ResponseEntity.ok(reporteService.getVentasPorPeriodo(inicio, fin));
     }
 
@@ -44,17 +45,19 @@ public class ReportController {
         return ResponseEntity.ok(reporteService.getVentasDiariasDelMes());
     }
 
-    // ===================== REPORTES DE PEDIDOS =====================
-
     @GetMapping("/reporte-por-pedido")
     public List<Map<String, Object>> getPedidosPorTipo() {
         return pedidoRepository.contarPorTipo();
     }
 
-    // =========   REPORTES DE PRODUCTOS MAS VENDIDOS ===============
-    
     @GetMapping("/productos-mas-vendidos")
     public ResponseEntity<List<ProductosMasVendidosDTO>> productosMasVendidos() {
         return ResponseEntity.ok(reporteService.getProductosMasVendidos());
-}
+    }
+
+    // 👇 NUEVO
+    @GetMapping("/ingresos-por-metodo-pago")
+    public List<Map<String, Object>> ingresosPorMetodoPago() {
+        return ingresoRepository.ingresosPorMetodoPago();
+    }
 }

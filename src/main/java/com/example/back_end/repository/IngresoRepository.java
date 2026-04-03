@@ -9,6 +9,7 @@ import org.springframework.data.repository.query.Param;
 
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Map;
 
 public interface IngresoRepository extends JpaRepository<Ingreso, Integer> {
 
@@ -43,4 +44,15 @@ public interface IngresoRepository extends JpaRepository<Ingreso, Integer> {
         @Param("inicio") LocalDate inicio,
         @Param("fin")    LocalDate fin
     );
+    @Query("""
+    SELECT
+        mp.nombre                AS metodoPago,
+        SUM(i.monto)             AS total,
+        COUNT(i.idIngreso)       AS cantidad
+    FROM Ingreso i
+    JOIN i.metodoPago mp
+    GROUP BY mp.nombre
+    ORDER BY total DESC
+""")
+List<Map<String, Object>> ingresosPorMetodoPago();
 }
