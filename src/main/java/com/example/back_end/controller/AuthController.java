@@ -5,8 +5,10 @@ import com.example.back_end.dto.LoginResponse;
 import com.example.back_end.dto.RegisterRequest;
 import com.example.back_end.service.AuthService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/api/auth")
@@ -22,9 +24,15 @@ public class AuthController {
         return ResponseEntity.ok(response);
     }
 
-    @PostMapping("/login")
-    public ResponseEntity<LoginResponse> login(@RequestBody LoginRequest request) {
+@PostMapping("/login")
+public ResponseEntity<?> login(@RequestBody LoginRequest request) {
+    try {
         LoginResponse response = authService.login(request);
         return ResponseEntity.ok(response);
+    } catch (RuntimeException e) {
+        return ResponseEntity
+            .status(HttpStatus.UNAUTHORIZED)
+            .body(Map.of("message", e.getMessage()));
     }
+}
 }

@@ -46,19 +46,23 @@ public class AuthServiceImpl implements AuthService {
         return "Usuario registrado correctamente";
     }
 
-    @Override
-    public LoginResponse login(LoginRequest request) {
+@Override
+public LoginResponse login(LoginRequest request) {
 
-        Usuario user = usuarioRepository.findByCorreo(request.getCorreo())
-                .orElseThrow(() -> new RuntimeException("Usuario no encontrado"));
+    Usuario user = usuarioRepository.findByCorreo(request.getCorreo())
+            .orElseThrow(() -> new RuntimeException("Usuario no encontrado"));
 
-        if (!passwordEncoder.matches(request.getContrasena(), user.getContrasena())) {
-            throw new RuntimeException("Credenciales incorrectas");
-        }
-
-        // Se genera token usando el correo
-        String token = jwtUtil.generateToken(user.getCorreo());
-
-        return new LoginResponse(token, user.getRol().getNombre());
+    if (!passwordEncoder.matches(request.getContrasena(), user.getContrasena())) {
+        throw new RuntimeException("Credenciales incorrectas");
     }
+
+    // ← agregar esta validación
+    if (user.getEstado() == Usuario.EstadoUsuario.Inactivo) {
+        throw new RuntimeException("Tu cuenta está inactiva. Contacta al administrador.");
+    }
+
+    String token = jwtUtil.generateToken(user.getCorreo());
+
+    return new LoginResponse(token, user.getRol().getNombre());
+}
 }

@@ -53,6 +53,7 @@ public class UsuarioServiceImpl implements UsuarioService {
         existente.setTelefono(usuario.getTelefono());
         existente.setContrasena(usuario.getContrasena());
         existente.setRol(usuario.getRol());
+        existente.setEstado(usuario.getEstado()); 
 
 
 
