@@ -1,21 +1,19 @@
-    package com.example.back_end.service;
+package com.example.back_end.service;
 
-    import com.example.back_end.model.Cliente;
+import com.example.back_end.model.Cliente;
 
-    import java.util.List;
-    import java.util.Optional;
+import java.util.List;
+import java.util.Optional;
 
-    public interface ClienteService {
+public interface ClienteService {
 
-        List<Cliente> listar();
-        Optional<Cliente> obtenerPorId(Integer id);
-        Cliente guardar(Cliente cliente);
-        void eliminar(Integer id);
-        Cliente actualizar(Integer id, Cliente cliente);
+    List<Cliente> listar();
+    List<Cliente> listarTodos();
+    Optional<Cliente> obtenerPorId(Integer id);
+    Cliente guardar(Cliente cliente);
+    void eliminar(Integer id);
+    Cliente actualizar(Integer id, Cliente cliente);
 
-        // Buscar por nombre
-        List<Cliente> buscarPorNombre(String nombre);
-
-        // Buscar por teléfono
-        List<Cliente> buscarPorTelefono(String telefono);
-    }
+    List<Cliente> buscarPorNombre(String nombre);
+    List<Cliente> buscarPorTelefono(String telefono);
+}

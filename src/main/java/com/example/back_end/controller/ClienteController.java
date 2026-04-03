@@ -8,7 +8,6 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-
 @RestController
 @RequestMapping("/api/clientes")
 @CrossOrigin(origins = "*")
@@ -17,9 +16,16 @@ public class ClienteController {
     @Autowired
     private ClienteService clienteService;
 
+    // Solo activos — para pedidos, combos, etc.
     @GetMapping
     public List<Cliente> listar() {
         return clienteService.listar();
+    }
+
+    // Activos + inactivos — para la vista de administración
+    @GetMapping("/todos")
+    public List<Cliente> listarTodos() {
+        return clienteService.listarTodos();
     }
 
     @GetMapping("/{id}")
@@ -55,7 +61,4 @@ public class ClienteController {
         List<Cliente> clientes = clienteService.buscarPorTelefono(telefono);
         return ResponseEntity.ok(clientes);
     }
-
-
-
 }

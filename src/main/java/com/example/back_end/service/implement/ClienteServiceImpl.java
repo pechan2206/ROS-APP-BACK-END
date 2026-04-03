@@ -17,7 +17,12 @@ public class ClienteServiceImpl implements ClienteService {
 
     @Override
     public List<Cliente> listar() {
-        return clienteRepository.findByEstadoTrue();
+        return clienteRepository.findByEstadoTrue(); // solo activos (para otros módulos)
+    }
+
+    @Override
+    public List<Cliente> listarTodos() {
+        return clienteRepository.findAll(); // activos + inactivos (para la vista admin)
     }
 
     @Override
@@ -32,12 +37,10 @@ public class ClienteServiceImpl implements ClienteService {
 
     @Override
     public void eliminar(Integer id) {
-
         Cliente cliente = clienteRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Cliente no encontrado"));
 
-        cliente.setEstado(false); // 🔥 eliminado lógico
-
+        cliente.setEstado(false); // eliminado lógico
         clienteRepository.save(cliente);
     }
 
@@ -48,6 +51,8 @@ public class ClienteServiceImpl implements ClienteService {
                     cliente.setNombre(clienteActualizado.getNombre());
                     cliente.setCorreo(clienteActualizado.getCorreo());
                     cliente.setTelefono(clienteActualizado.getTelefono());
+                    cliente.setDireccion(clienteActualizado.getDireccion());
+                    cliente.setDescripcion(clienteActualizado.getDescripcion());
                     return clienteRepository.save(cliente);
                 })
                 .orElseThrow(() -> new RuntimeException("Cliente no encontrado con ID: " + id));
@@ -62,5 +67,4 @@ public class ClienteServiceImpl implements ClienteService {
     public List<Cliente> buscarPorTelefono(String telefono) {
         return clienteRepository.findByTelefonoContaining(telefono);
     }
-
 }
