@@ -4,6 +4,7 @@ import com.example.back_end.model.Usuario;
 import com.example.back_end.repository.UsuarioRepository;
 import com.example.back_end.service.UsuarioService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -14,7 +15,8 @@ public class UsuarioServiceImpl implements UsuarioService {
 
     @Autowired
     private UsuarioRepository usuarioRepository;
-
+    private PasswordEncoder passwordEncoder; 
+    
     @Override
     public List<Usuario> listar() {
         return usuarioRepository.findAll();
@@ -35,28 +37,28 @@ public class UsuarioServiceImpl implements UsuarioService {
         usuarioRepository.deleteById(id);
     }
 
-    @Override
-    public Usuario actualizar(Integer id, Usuario usuario) {
+@Override
+public Usuario actualizar(Integer id, Usuario usuario) {
 
-        Usuario existente = usuarioRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Usuario no encontrado"));
+    Usuario existente = usuarioRepository.findById(id)
+            .orElseThrow(() -> new RuntimeException("Usuario no encontrado"));
 
-        // Validar correo duplicado (excepto el mismo usuario)
-        if (usuarioRepository.existsByCorreoAndIdUsuarioNot(usuario.getCorreo(), id)) {
-            throw new RuntimeException("El correo ya está en uso por otro usuario");
-        }
-
-        // 🔥 Actualizar campos sobre el existente
-        existente.setNombre(usuario.getNombre());
-        existente.setApellido(usuario.getApellido());
-        existente.setCorreo(usuario.getCorreo());
-        existente.setTelefono(usuario.getTelefono());
-        existente.setContrasena(usuario.getContrasena());
-        existente.setRol(usuario.getRol());
-        existente.setEstado(usuario.getEstado()); 
-
-
-
-        return usuarioRepository.save(existente);
+    if (usuarioRepository.existsByCorreoAndIdUsuarioNot(usuario.getCorreo(), id)) {
+        throw new RuntimeException("El correo ya está en uso por otro usuario");
     }
+
+    existente.setNombre(usuario.getNombre());
+    existente.setApellido(usuario.getApellido());
+    existente.setCorreo(usuario.getCorreo());
+    existente.setTelefono(usuario.getTelefono());
+    existente.setRol(usuario.getRol());
+    existente.setEstado(usuario.getEstado());
+
+    // ← solo actualizar contraseña si viene con valor
+    if (usuario.getContrasena() != null && !usuario.getContrasena().isBlank()) {
+        existente.setContrasena(passwordEncoder.encode(usuario.getContrasena()));
+    }
+
+    return usuarioRepository.save(existente);
+}
 }
