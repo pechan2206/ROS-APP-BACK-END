@@ -23,9 +23,8 @@ public class PlatoServiceImpl implements PlatoService {
 
     @Override
     public List<Plato> findAll() {
-        return platoRepository.findAllByEstadoTrue(); // Solo activos
+        return platoRepository.findAllByEstadoIsNullOrEstadoTrue();
     }
-
     @Override
     public Optional<Plato> findById(Integer id) {
         return platoRepository.findById(id);

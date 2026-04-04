@@ -11,7 +11,7 @@ import java.util.Optional;
 public interface PlatoRepository extends JpaRepository<Plato, Integer> {
 
     Optional<Plato> findByNombre(String nombre);
-
+    List<Plato> findAllByEstadoIsNullOrEstadoTrue();
     List<Plato> findAllByEstadoTrue();
 
     @Query("""
