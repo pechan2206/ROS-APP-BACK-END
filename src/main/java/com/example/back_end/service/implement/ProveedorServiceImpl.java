@@ -7,7 +7,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class ProveedorServiceImpl implements ProveedorService {
@@ -17,7 +16,7 @@ public class ProveedorServiceImpl implements ProveedorService {
 
     @Override
     public List<Proveedor> listar() {
-        return proveedorRepository.findAll();
+        return proveedorRepository.findAll(); // devuelve todos, el filtro lo hace el frontend
     }
 
     @Override
@@ -27,23 +26,29 @@ public class ProveedorServiceImpl implements ProveedorService {
 
     @Override
     public Proveedor guardar(Proveedor proveedor) {
+        proveedor.setEstado(true); // nuevo proveedor siempre activo
         return proveedorRepository.save(proveedor);
     }
 
     @Override
     public void eliminar(Integer id) {
-
         Proveedor proveedor = proveedorRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Proveedor no encontrado"));
-
-        proveedor.setEstado(false); 
-
+        proveedor.setEstado(false);
         proveedorRepository.save(proveedor);
     }
 
-    // Modificar funcionalidad
     @Override
     public Proveedor actualizar(Integer id, Proveedor proveedor) {
-        return proveedorRepository.save(proveedor);
+        return proveedorRepository.findById(id)
+                .map(existing -> {
+                    existing.setNombre(proveedor.getNombre());
+                    existing.setTelefono(proveedor.getTelefono());
+                    existing.setCorreo(proveedor.getCorreo());
+                    existing.setDireccion(proveedor.getDireccion());
+                    existing.setEstado(proveedor.getEstado()); // ← guarda el estado
+                    return proveedorRepository.save(existing);
+                })
+                .orElseThrow(() -> new RuntimeException("Proveedor no encontrado"));
     }
 }
