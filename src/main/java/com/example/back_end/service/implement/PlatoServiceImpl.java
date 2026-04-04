@@ -25,6 +25,7 @@ public class PlatoServiceImpl implements PlatoService {
     public List<Plato> findAll() {
         return platoRepository.findAllByEstadoIsNullOrEstadoTrue();
     }
+
     @Override
     public Optional<Plato> findById(Integer id) {
         return platoRepository.findById(id);
@@ -37,6 +38,7 @@ public class PlatoServiceImpl implements PlatoService {
                 .orElseThrow(() -> new RuntimeException("Categoría de plato no encontrada"));
 
         plato.setCategoriaPlato(categoria);
+        plato.setEstado(true); // ← nuevo plato siempre activo
         return platoRepository.save(plato);
     }
 
@@ -48,6 +50,7 @@ public class PlatoServiceImpl implements PlatoService {
                     existing.setPrecio(plato.getPrecio());
                     existing.setDescripcion(plato.getDescripcion());
                     existing.setImagen(plato.getImagen());
+                    existing.setEstado(plato.getEstado()); // ← esto faltaba
 
                     CategoriaPlato categoria = categoriaPlatoRepository.findById(
                             plato.getCategoriaPlato().getIdCategoria())
@@ -63,7 +66,6 @@ public class PlatoServiceImpl implements PlatoService {
     public void delete(Integer id) {
         Plato plato = platoRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Plato no encontrado"));
-
         plato.setEstado(false);
         platoRepository.save(plato);
     }

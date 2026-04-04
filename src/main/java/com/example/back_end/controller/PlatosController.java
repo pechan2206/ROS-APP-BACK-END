@@ -21,6 +21,16 @@ public class PlatosController {
         return platoService.findAll();
     }
 
+    @PostMapping
+    public ResponseEntity<Plato> crear(@RequestBody Plato plato) {
+        return ResponseEntity.ok(platoService.save(plato));
+    }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<Plato> actualizar(@PathVariable Integer id, @RequestBody Plato plato) {
+        return ResponseEntity.ok(platoService.update(id, plato));
+    }
+
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> eliminar(@PathVariable Integer id) {
         platoService.delete(id);
