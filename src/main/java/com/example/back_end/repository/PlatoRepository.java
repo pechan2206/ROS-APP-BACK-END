@@ -12,6 +12,8 @@ public interface PlatoRepository extends JpaRepository<Plato, Integer> {
 
     Optional<Plato> findByNombre(String nombre);
 
+    List<Plato> findAllByEstadoTrue();
+
     @Query("""
         SELECT
             p.idPlato          AS idPlato,

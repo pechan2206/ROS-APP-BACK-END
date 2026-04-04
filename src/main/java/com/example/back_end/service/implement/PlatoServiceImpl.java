@@ -23,7 +23,7 @@ public class PlatoServiceImpl implements PlatoService {
 
     @Override
     public List<Plato> findAll() {
-        return platoRepository.findAll();
+        return platoRepository.findAllByEstadoTrue(); // Solo activos
     }
 
     @Override
@@ -33,22 +33,18 @@ public class PlatoServiceImpl implements PlatoService {
 
     @Override
     public Plato save(Plato plato) {
-
         CategoriaPlato categoria = categoriaPlatoRepository.findById(
                 plato.getCategoriaPlato().getIdCategoria())
                 .orElseThrow(() -> new RuntimeException("Categoría de plato no encontrada"));
 
         plato.setCategoriaPlato(categoria);
-
         return platoRepository.save(plato);
     }
 
     @Override
     public Plato update(Integer id, Plato plato) {
-
         return platoRepository.findById(id)
                 .map(existing -> {
-
                     existing.setNombre(plato.getNombre());
                     existing.setPrecio(plato.getPrecio());
                     existing.setDescripcion(plato.getDescripcion());
@@ -59,7 +55,6 @@ public class PlatoServiceImpl implements PlatoService {
                             .orElseThrow(() -> new RuntimeException("Categoría de plato no encontrada"));
 
                     existing.setCategoriaPlato(categoria);
-
                     return platoRepository.save(existing);
                 })
                 .orElseThrow(() -> new RuntimeException("Plato no encontrado"));
@@ -67,12 +62,10 @@ public class PlatoServiceImpl implements PlatoService {
 
     @Override
     public void delete(Integer id) {
-
         Plato plato = platoRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Plato no encontrado"));
 
         plato.setEstado(false);
-
         platoRepository.save(plato);
     }
 }

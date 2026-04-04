@@ -3,10 +3,8 @@ package com.example.back_end.controller;
 import com.example.back_end.model.Plato;
 import com.example.back_end.service.PlatoService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -19,8 +17,13 @@ public class PlatosController {
     private PlatoService platoService;
 
     @GetMapping
-    public List<Plato> listar(){
+    public List<Plato> listar() {
         return platoService.findAll();
     }
 
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> eliminar(@PathVariable Integer id) {
+        platoService.delete(id);
+        return ResponseEntity.noContent().build();
+    }
 }
