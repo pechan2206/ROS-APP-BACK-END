@@ -36,7 +36,10 @@ public class ClienteController {
 
     @GetMapping("/buscar-telefono")
     public ResponseEntity<List<Cliente>> buscarPorTelefono(@RequestParam String telefono) {
-        List<Cliente> clientes = clienteService.buscarPorTelefono(telefono);
+        List<Cliente> clientes = clienteService.buscarPorTelefono(telefono)
+                .stream()
+                .filter(c -> Boolean.TRUE.equals(c.getEstado()))
+                .toList();
         return ResponseEntity.ok(clientes);
     }
 

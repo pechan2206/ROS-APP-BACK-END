@@ -17,8 +17,7 @@ public class UsuarioServiceImpl implements UsuarioService {
     private UsuarioRepository usuarioRepository;
 
     @Autowired
-    private PasswordEncoder passwordEncoder;  // ← @Autowired agregado
-
+    private PasswordEncoder passwordEncoder;
     @Override
     public List<Usuario> listar() {
         return usuarioRepository.findAll();
