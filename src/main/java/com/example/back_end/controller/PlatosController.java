@@ -22,6 +22,7 @@ public class PlatosController {
         return platoService.findAll();
     }
 
+    //Filtrar los que estan activos
     @GetMapping("/listar-activos")
     public List<Plato> listar() {
         return platoService.findAll()
