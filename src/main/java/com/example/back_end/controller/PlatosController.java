@@ -5,6 +5,7 @@ import com.example.back_end.service.PlatoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import java.util.stream.Collectors;
 
 import java.util.List;
 
@@ -19,6 +20,14 @@ public class PlatosController {
     @GetMapping
     public List<Plato> listar() {
         return platoService.findAll();
+    }
+
+    @GetMapping("/listar-activos")
+    public List<Plato> listar() {
+        return platoService.findAll()
+                .stream()
+                .filter(Plato::isEstado)
+                .collect(Collectors.toList());
     }
 
     @PostMapping
