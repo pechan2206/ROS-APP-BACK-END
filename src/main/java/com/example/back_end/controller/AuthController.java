@@ -24,15 +24,15 @@ public class AuthController {
         return ResponseEntity.ok(response);
     }
 
-@PostMapping("/login")
-public ResponseEntity<?> login(@RequestBody LoginRequest request) {
-    try {
-        LoginResponse response = authService.login(request);
-        return ResponseEntity.ok(response);
-    } catch (RuntimeException e) {
-        return ResponseEntity
-            .status(HttpStatus.UNAUTHORIZED)
-            .body(Map.of("message", e.getMessage()));
+    @PostMapping("/login")
+    public ResponseEntity<?> login(@RequestBody LoginRequest request) {
+        try {
+            LoginResponse response = authService.login(request);
+            return ResponseEntity.ok(response);
+        } catch (RuntimeException e) {
+            return ResponseEntity
+                    .status(HttpStatus.UNAUTHORIZED)
+                    .body(Map.of("message", e.getMessage()));
+        }
     }
-}
 }

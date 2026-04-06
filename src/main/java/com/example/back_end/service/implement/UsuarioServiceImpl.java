@@ -18,6 +18,7 @@ public class UsuarioServiceImpl implements UsuarioService {
 
     @Autowired
     private PasswordEncoder passwordEncoder;
+
     @Override
     public List<Usuario> listar() {
         return usuarioRepository.findAll();
@@ -30,6 +31,16 @@ public class UsuarioServiceImpl implements UsuarioService {
 
     @Override
     public Usuario guardar(Usuario usuario) {
+        if (usuarioRepository.existsByCorreo(usuario.getCorreo())) {
+            throw new RuntimeException("El correo ya está registrado");
+        }
+        if (usuarioRepository.existsByTelefono(usuario.getTelefono())) {
+            throw new RuntimeException("El teléfono ya está registrado");
+        }
+        if (usuario.getContrasena() == null || usuario.getContrasena().length() < 6) {
+            throw new RuntimeException("La contraseña debe tener al menos 6 caracteres");
+        }
+        usuario.setContrasena(passwordEncoder.encode(usuario.getContrasena()));
         return usuarioRepository.save(usuario);
     }
 
@@ -40,12 +51,18 @@ public class UsuarioServiceImpl implements UsuarioService {
 
     @Override
     public Usuario actualizar(Integer id, Usuario usuario) {
-
         Usuario existente = usuarioRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Usuario no encontrado"));
 
         if (usuarioRepository.existsByCorreoAndIdUsuarioNot(usuario.getCorreo(), id)) {
             throw new RuntimeException("El correo ya está en uso por otro usuario");
+        }
+        if (usuarioRepository.existsByTelefonoAndIdUsuarioNot(usuario.getTelefono(), id)) {
+            throw new RuntimeException("El teléfono ya está en uso por otro usuario");
+        }
+        if (usuario.getContrasena() != null && !usuario.getContrasena().isBlank()
+                && usuario.getContrasena().length() < 6) {
+            throw new RuntimeException("La contraseña debe tener al menos 6 caracteres");
         }
 
         existente.setNombre(usuario.getNombre());

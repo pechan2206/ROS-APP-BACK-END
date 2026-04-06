@@ -31,6 +31,9 @@ public class AuthServiceImpl implements AuthService {
         if (usuarioRepository.existsByCorreo(request.getCorreo())) {
             throw new RuntimeException("El correo ya está registrado");
         }
+        if (usuarioRepository.existsByTelefono(request.getTelefono())) {
+            throw new RuntimeException("El tlefono ya está registrado");
+        }
 
         Usuario user = new Usuario();
         user.setNombre(request.getNombre());
@@ -39,30 +42,30 @@ public class AuthServiceImpl implements AuthService {
         user.setContrasena(passwordEncoder.encode(request.getContrasena()));
         user.setTelefono(request.getTelefono());
         user.setFechaRegistro(LocalDateTime.now());
-        user.setRol(request.getRol()); // si el DTO trae el rol, ajusta aquí
+        user.setRol(request.getRol());
 
         usuarioRepository.save(user);
 
         return "Usuario registrado correctamente";
     }
 
-@Override
-public LoginResponse login(LoginRequest request) {
+    @Override
+    public LoginResponse login(LoginRequest request) {
 
-    Usuario user = usuarioRepository.findByCorreo(request.getCorreo())
-            .orElseThrow(() -> new RuntimeException("Usuario no encontrado"));
+        Usuario user = usuarioRepository.findByCorreo(request.getCorreo())
+                .orElseThrow(() -> new RuntimeException("Usuario no encontrado"));
 
-    if (!passwordEncoder.matches(request.getContrasena(), user.getContrasena())) {
-        throw new RuntimeException("Credenciales incorrectas");
+        if (!passwordEncoder.matches(request.getContrasena(), user.getContrasena())) {
+            throw new RuntimeException("Credenciales incorrectas");
+        }
+
+        // ← agregar esta validación
+        if (user.getEstado() == Usuario.EstadoUsuario.Inactivo) {
+            throw new RuntimeException("Tu cuenta está inactiva. Contacta al administrador.");
+        }
+
+        String token = jwtUtil.generateToken(user.getCorreo());
+
+        return new LoginResponse(token, user.getRol().getNombre());
     }
-
-    // ← agregar esta validación
-    if (user.getEstado() == Usuario.EstadoUsuario.Inactivo) {
-        throw new RuntimeException("Tu cuenta está inactiva. Contacta al administrador.");
-    }
-
-    String token = jwtUtil.generateToken(user.getCorreo());
-
-    return new LoginResponse(token, user.getRol().getNombre());
-}
 }
