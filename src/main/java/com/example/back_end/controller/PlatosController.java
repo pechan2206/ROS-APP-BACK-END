@@ -23,10 +23,10 @@ public class PlatosController {
     }
 
     @GetMapping("/listar-activos")
-    public List<Plato> listarActivos() {
+    public List<Plato> listar() {
         return platoService.findAll()
                 .stream()
-                .filter(Plato::isEstado)
+                .filter(p -> Boolean.TRUE.equals(p.getEstado()))
                 .collect(Collectors.toList());
     }
 
