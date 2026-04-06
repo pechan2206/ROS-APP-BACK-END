@@ -11,7 +11,7 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 public class BackEndApplication {
 
 	public static void main(String[] args) {
-J		SpringApplication.run(BackEndApplication.class, args);
+		SpringApplication.run(BackEndApplication.class, args);
 	}
 @Configuration
 	public static class Myconfiguration{
